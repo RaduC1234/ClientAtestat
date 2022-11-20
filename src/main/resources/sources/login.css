@@ -1,0 +1,27 @@
+.root {
+  -fx-background-color: #282c34;
+  -fx-min-height: 800px;
+  -fx-min-widht: 1200px;
+  -fx-pref-height: 800px;
+  -fx-pref-widht: 1200px;
+}
+.manu-pane {
+  -fx-background-color: #161a1e;
+}
+.title-pane {
+  -fx-background-color: #161a1e;
+}
+.button {
+  -fx-border-width: 2;
+  -fx-background-color: #dcb76e;
+  -fx-background-radius: 25px;
+  -fx-text-fill: #ffffff;
+  -fx-cursor: hand;
+}
+.button:hover {
+  -fx-background-color: #ffc125;
+}
+
+.button:pressed {
+  -fx-background-color: #ffdab9;
+}
