@@ -117,7 +117,7 @@ public class RequestChannelHandler {
         }
         @Override
         public void onAnswer(Packet packet) {
-                Platform.runLater(() -> Gui.getInstance().setScene("loadingScreen"));
+                Platform.runLater(() -> Gui.getInstance().setScene("dashboardScreen"));
         }
 
         @Override

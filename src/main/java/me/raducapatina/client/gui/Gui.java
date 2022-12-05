@@ -33,7 +33,6 @@ public class Gui extends Application  {
     private LoginController loginController = new LoginController();
 
     private SceneController sceneController = new SceneController();
-    private DashboardController dashboardController = new DashboardController();
 
     public Gui() {
         instance = this;
@@ -61,18 +60,18 @@ public class Gui extends Application  {
 
         FXMLLoader splashScreen = new FXMLLoader(MainClient.class.getResource("/sources/SplashScreen.fxml"));
         FXMLLoader loginScreen = new FXMLLoader(MainClient.class.getResource("/sources/LoginScreen.fxml")); loginScreen.setController(loginController);
-        FXMLLoader dashboardScreen = new FXMLLoader(MainClient.class.getResource("/sources/Dashboard.fxml")); dashboardScreen.setController(dashboardController);
 
         sceneController = new SceneController(stage);
         sceneController.addScreen("splashScreen", new Scene(splashScreen.load(), SCREEN_WIDTH, SCREEN_HEIGHT));
         sceneController.addScreen("loginScreen", new Scene(loginScreen.load(), SCREEN_WIDTH, SCREEN_HEIGHT));
-        sceneController.addScreen("dashboardScreen", new Scene(dashboardScreen.load(), SCREEN_WIDTH, SCREEN_HEIGHT));
+        sceneController.addScreen("dashboardScreen", new Scene(new FullScreenWebView("/html/main.html"), SCREEN_WIDTH, SCREEN_HEIGHT));
         sceneController.addScreen("loadingScreen", new Scene(new FullScreenWebView("/html/loading.html"), SCREEN_WIDTH, SCREEN_HEIGHT, Color.web("#666970")));
 
         sceneController.activate("splashScreen");
     }
 
     private void init(Stage stage) {
+        stage.setTitle("Education Software Client. Pre-Alpha 0.4");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainClient.class.getResourceAsStream("/assets/tray_logo.png"))));
         stage.setOnCloseRequest(event -> ClientInstance.getInstance().stopApplication());
         stage.setWidth(SCREEN_WIDTH);
@@ -91,9 +90,6 @@ public class Gui extends Application  {
         return this.loginController;
     }
 
-    public synchronized DashboardController getDashboardController() {
-        return dashboardController;
-    }
 
     public static class FullScreenWebView extends Pane {
 
