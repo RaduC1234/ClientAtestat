@@ -223,7 +223,7 @@ main .date input[type="date"] {
 } */
 
 main .pagetitle {
-  background-color: var(--color-info-light);
+  background:transparent;
 }
 
 .card-body {
