@@ -207,6 +207,7 @@ aside .sidebar a:hover span {
 /*===============MAIN=================*/
 
 main {
+  
   margin-top: 1.4rem;
 }
 
@@ -268,3 +269,29 @@ main .pagetitle {
   padding: 5px 12px;
   border-top: 1px solid #ccc;
 }
+
+#myProgress {
+  width: 100%;
+  border-radius: 1rem;
+  padding-left: 1rem;
+  background-color:white;
+  margin-top: 1rem;
+ 
+ 
+}
+
+#myBar {
+  width: 1%;
+  height: 30px;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  background-color: var(--color-primary);
+  margin-left:-1rem;
+}
+
+ .main-chart-wrapper{
+        background: white;
+        padding: 1rem;
+        margin-top:4rem;
+        
+ }

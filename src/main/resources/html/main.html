@@ -86,26 +86,38 @@
                 <h1>Dashboard</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="index.html">Home</a>  
+                       
                     </ol>
                 </nav>
+                <div id="myProgress">
+                    <div id="myBar"></div>
+                  </div>
             </div>
             <!-- Line Chart -->
-            <div id="reportsChart"></div>
-
+            <div class="main-chart-wrapper"><h2>Reports / Semeste+</h2><div id="reportsChart"></div>  </div>
+          
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
                     new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
-                            name: 'Medie Totala',
-                            data: [10, 5, 8, 2, 10, 10, 10],
+                            name: 'Total',
+                            data: [2, 3, 6, 7, 8],
                         }, {
-                            name: 'Medie Romana',
-                            data: [10, 6, 4, 5, 6, 7, 10, 10]
+                            name: 'Romana',
+                            data: [1, 2, 5, 6, 9]
                         }, {
-                            name: 'Customers',
-                            data: [60, 11, 32, 18, 9, 24, 11]
+                            name: 'Engleza',
+                            data: [3, 4, 8, 9, 10]
+                        }, {
+                            name: 'Biologie',
+                            data: [1, 4, 5, 7, 8]
+                        }, {
+                            name: 'Fizica',
+                            data: [4, 6, 7, 8, 9]
+                        }, {
+                            name: 'Matematica',
+                            data: [2, 4, 7, 9, 10]
                         }],
                         chart: {
                             height: 350,
@@ -117,7 +129,7 @@
                         markers: {
                             size: 4
                         },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                        colors: ['#4154f1', '#2eca6a', '#ff771d', '#8634eb', '#f502a8', '#f1f502' ],
                         fill: {
                             type: "gradient",
                             gradient: {
@@ -136,7 +148,7 @@
                         },
                         xaxis: {
                             type: 'datetime',
-                            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z"]
                         },
                         tooltip: {
                             x: {
