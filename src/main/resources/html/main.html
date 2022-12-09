@@ -86,8 +86,8 @@
                 <h1>Dashboard</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a>  
-                       
+                        <li class="breadcrumb-item"><a href="index.html">Home</a>
+
                     </ol>
                 </nav>
                 <div id="myProgress">
@@ -95,67 +95,33 @@
                   </div>
             </div>
             <!-- Line Chart -->
-            <div class="main-chart-wrapper"><h2>Reports / Semeste+</h2><div id="reportsChart"></div>  </div>
-          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+            <canvas id="main-chart"></canvas>
+
             <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                            name: 'Total',
-                            data: [2, 3, 6, 7, 8],
+                var xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+                new Chart("main-chart", {
+                    type: "line",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                            borderColor: "red",
+                            fill: false
                         }, {
-                            name: 'Romana',
-                            data: [1, 2, 5, 6, 9]
+                            data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+                            borderColor: "green",
+                            fill: false
                         }, {
-                            name: 'Engleza',
-                            data: [3, 4, 8, 9, 10]
-                        }, {
-                            name: 'Biologie',
-                            data: [1, 4, 5, 7, 8]
-                        }, {
-                            name: 'Fizica',
-                            data: [4, 6, 7, 8, 9]
-                        }, {
-                            name: 'Matematica',
-                            data: [2, 4, 7, 9, 10]
-                        }],
-                        chart: {
-                            height: 350,
-                            type: 'area',
-                            toolbar: {
-                                show: false
-                            },
-                        },
-                        markers: {
-                            size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d', '#8634eb', '#f502a8', '#f1f502' ],
-                        fill: {
-                            type: "gradient",
-                            gradient: {
-                                shadeIntensity: 1,
-                                opacityFrom: 0.3,
-                                opacityTo: 0.4,
-                                stops: [0, 90, 100]
-                            }
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            curve: 'smooth',
-                            width: 2
-                        },
-                        xaxis: {
-                            type: 'datetime',
-                            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z"]
-                        },
-                        tooltip: {
-                            x: {
-                                format: 'dd/MM/yy HH:mm'
-                            },
-                        }
-                    }).render();
+                            data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+                            borderColor: "blue",
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        legend: { display: true }
+                    }
                 });
             </script>
             <!-- End Line Chart -->
@@ -185,30 +151,28 @@
         </div>
     </div>
 
-    <script src="../assets/apexcharts.min.js"></script>
+    <!--<script>
+        const contextMenu = document.querySelector(".menu-wrapper");
 
-    <script>
-        // const contextMenu = document.querySelector(".menu-wrapper");
-
-        // window.addEventListener("contextmenu", e => {
-        //     e.preventDefault();
-        //     let x = e.offsetX, y = e.offsetY,
-        //         winWidth = window.innerWidth,
-        //         winHeight = window.innerHeight,
-        //         cmWidth = contextMenu.offsetWidth,
-        //         cmHeight = contextMenu.offsetHeight;
+        window.addEventListener("contextmenu", e => {
+            e.preventDefault();
+            let x = e.offsetX, y = e.offsetY,
+                winWidth = window.innerWidth,
+                winHeight = window.innerHeight,
+                cmWidth = contextMenu.offsetWidth,
+                cmHeight = contextMenu.offsetHeight;
 
 
-        //     x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
-        //     y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+            x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
+            y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
 
-        //     contextMenu.style.left = `${x}px`;
-        //     contextMenu.style.top = `${y}px`;
-        //     contextMenu.style.visibility = "visible";
-        // });
+            contextMenu.style.left = `${x}px`;
+            contextMenu.style.top = `${y}px`;
+            contextMenu.style.visibility = "visible";
+        });
 
-        // document.addEventListener("click", () => contextMenu.style.visibility = "hidden");
-    </script>
+        document.addEventListener("click", () => contextMenu.style.visibility = "hidden");
+    </script>-->
 
     <script>
         function reload() { } //direct injection in java

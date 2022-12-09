@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import me.raducapatina.client.MainClient;
 import me.raducapatina.client.core.ClientInstance;
 
