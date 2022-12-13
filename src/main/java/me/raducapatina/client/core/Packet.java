@@ -33,11 +33,11 @@ public class Packet {
     }
 
     public ChannelFuture sendError(PACKET_CODES code) {
-        return this.channelHandlerContext.writeAndFlush("{\"requestName\": \"" + requestName + "\", \"requestStatus\": true, \"requestId\" : " + requestId + ",\"responseStats\" : 0, \"responseContent\" : {\"message\" : " + code.ordinal() + "}}\r\n");
+        return this.channelHandlerContext.writeAndFlush("{\"requestName\": \"" + requestName + "\", \"requestStatus\": true, \"requestId\" : " + requestId + ",\"responseStats\" : 0, \"requestContent\" : {\"message\" : \"" + code.ordinal() + "\"}}\r\n");
     }
 
     public ChannelFuture sendSuccess() {
-        return this.channelHandlerContext.writeAndFlush("{\"requestName\": \"" + requestName + "\", \"requestStatus\": true, \"requestId\" : " + requestId + ",\"responseStats\" : 1, \"responseContent\" : {\"message\" : " + PACKET_CODES.SUCCESS.ordinal() + "}}\r\n");
+        return this.channelHandlerContext.writeAndFlush("{\"requestName\": \"" + requestName + "\", \"requestStatus\": true, \"requestId\" : " + requestId + ",\"responseStats\" : 1, \"requestContent\" : {\"message\" : \"" + PACKET_CODES.SUCCESS.ordinal() + "\"}}\r\n");
     }
 
     public String toJson() throws JsonProcessingException {

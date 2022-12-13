@@ -104,7 +104,6 @@ public class RequestChannelHandler {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
-            packet.getRequestName();
             packet.setRequestContent(new ObjectMapper().createObjectNode()
                     .put("username", params[0].toString())
                     .put("password", params[1].toString())
@@ -117,6 +116,7 @@ public class RequestChannelHandler {
         }
         @Override
         public void onAnswer(Packet packet) {
+            if(packet.getRequestContent().get("message").asText().equals(Packet.PACKET_CODES.SUCCESS.name()))
                 Platform.runLater(() -> Gui.getInstance().setScene("dashboardScreen"));
         }
 

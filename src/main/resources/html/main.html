@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link href="main.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <aside>
@@ -83,7 +85,17 @@
         <!----------------- END OF ASIDE --------------->
         <main>
             <div class="pagetitle">
-                <h1>Dashboard</h1>
+                <h1 id="_GREETING_">Hello</h1>
+                <script>
+                    const date = (new Date()).getHours();
+                    if (date > 6 && date < 13) {
+                        document.getElementById("_GREETING_").innerHTML = "Good Morning";
+                    } else if (date >= 13 && date < 18) {
+                        document.getElementById("_GREETING_").innerHTML = "Good Afternoon";
+                    } else {
+                        document.getElementById("_GREETING_").innerHTML = "Good Evening";
+                    }
+                </script>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a>
@@ -92,7 +104,7 @@
                 </nav>
                 <div id="myProgress">
                     <div id="myBar"></div>
-                  </div>
+                </div>
             </div>
             <!-- Line Chart -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
