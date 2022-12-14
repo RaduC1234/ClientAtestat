@@ -92,8 +92,8 @@ public class ClientInstance {
                     });
             try {
                 clientBootstrap.connect(
-                                (String) ResourceClientProperties.getInstance().getObject("host"), // TODO: FIX THIS DAMN RESOURCE
-                                /*(Integer) ResourceClientProperties.getInstance().getObject("port")*/8080)
+                                (String) ResourceClientProperties.getInstance().getObject("host"),
+                                (Integer) ResourceClientProperties.getInstance().getObject("port"))
                         .sync().channel();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

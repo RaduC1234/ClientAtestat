@@ -116,8 +116,13 @@ public class RequestChannelHandler {
         }
         @Override
         public void onAnswer(Packet packet) {
-            if(packet.getRequestContent().get("message").asText().equals(Packet.PACKET_CODES.SUCCESS.name()))
+            if(packet.getRequestContent().get("message").asText().equals(Packet.PACKET_CODES.SUCCESS.name())) {
                 Platform.runLater(() -> Gui.getInstance().setScene("dashboardScreen"));
+                return;
+            }
+            Platform.runLater(() -> {
+                Gui.getInstance().getLoginController().login_info_label.setText(packet.getRequestContent().get("message").asText());
+            });
         }
 
         @Override
