@@ -13,4 +13,7 @@ module me.raducapatina.client {
     opens me.raducapatina.client.gui to javafx.fxml;
     exports me.raducapatina.client.core;
     opens me.raducapatina.client.core to javafx.fxml;
+
+    opens me.raducapatina.client.data to com.fasterxml.jackson.databind;
+    exports me.raducapatina.client.data;
 }

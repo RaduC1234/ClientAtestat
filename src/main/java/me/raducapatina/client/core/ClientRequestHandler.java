@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelHandlerContext;
 import javafx.application.Platform;
-import me.raducapatina.client.data.Account;
+import me.raducapatina.client.data.User;
 import me.raducapatina.client.gui.Gui;
 
 import java.util.ArrayList;
@@ -20,28 +20,29 @@ import java.util.Map;
  *
  * @author Radu
  */
-public class RequestChannelHandler {
+public class ClientRequestHandler {
 
     private Map<String, RequestTemplate> requestsTemplates = new HashMap();
     private List<Packet> waitingOutboundPackets = new ArrayList<>();
+    private ChannelHandlerContext ctx;
 
-    public RequestChannelHandler() {
+    public ClientRequestHandler() {
 
     }
 
     /**
      * Adds the template to the handler.
-     * @param name name of the request
+     *
+     * @param name     name of the request
      * @param template instance of a class that implements {@link RequestTemplate}
      * @return
      */
-    public RequestChannelHandler addRequestTemplate(String name, RequestTemplate template) {
+    public ClientRequestHandler addRequestTemplate(String name, RequestTemplate template) {
         requestsTemplates.put(name, template);
         return this;
     }
 
     /**
-     *
      * @param channelHandlerContext
      * @param message
      */
@@ -71,7 +72,7 @@ public class RequestChannelHandler {
             requestsTemplates.get(receivedPacket.getRequestName()).onIncomingRequest(receivedPacket);
 
         } catch (JsonProcessingException e) {
-           assert false : e.getMessage();
+            assert false : e.getMessage();
         }
     }
 
@@ -82,6 +83,20 @@ public class RequestChannelHandler {
         requestsTemplates.get(name).onNewRequest(packet, params);
         waitingOutboundPackets.add(packet);
     }
+
+    public void sendRequest(String name, Object[] params) throws IllegalArgumentException {
+        if (requestsTemplates.get(name) == null)
+            throw new IllegalArgumentException("No request template found with passed name");
+        Packet packet = new Packet(name, ctx);
+        requestsTemplates.get(name).onNewRequest(packet, params);
+        waitingOutboundPackets.add(packet);
+    }
+
+    public ClientRequestHandler setCtx(ChannelHandlerContext ctx) {
+        this.ctx = ctx;
+        return this;
+    }
+
 
     public interface RequestTemplate {
 
@@ -95,13 +110,6 @@ public class RequestChannelHandler {
 
     public static class AuthenticationTemplate implements RequestTemplate {
 
-        private Account account;
-
-        public AuthenticationTemplate(Account account) {
-
-            this.account = account;
-        }
-
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
             packet.setRequestContent(new ObjectMapper().createObjectNode()
@@ -109,19 +117,62 @@ public class RequestChannelHandler {
                     .put("password", params[1].toString())
             );
             try {
-                packet.sendThis();
+                packet.sendThis(false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
         @Override
         public void onAnswer(Packet packet) {
-            if(packet.getRequestContent().get("message").asText().equals(Packet.PACKET_CODES.SUCCESS.name())) {
-                Platform.runLater(() -> Gui.getInstance().setScene("dashboardScreen"));
+            if (packet.getRequestContent().get("message").asText().equals(Packet.PACKET_CODES.SUCCESS.name())) {
+                ClientInstance.getInstance().getRequestHandler().sendRequest("GET_SELF_USER", null);
+                Platform.runLater(() -> Gui.getInstance().setScene("loadingScreen"));
                 return;
             }
             Platform.runLater(() -> {
                 Gui.getInstance().getLoginController().login_info_label.setText(packet.getRequestContent().get("message").asText());
+            });
+        }
+
+        @Override
+        public void onIncomingRequest(Packet packet) {
+
+        }
+    }
+
+    public static class GetSelfUser implements RequestTemplate {
+        private User selfUser;
+
+        public GetSelfUser(User selfUser) {
+            this.selfUser = selfUser;
+        }
+
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            if (packet.getRequestContent().get("message") != null) {
+                // if there is an error exit
+                ClientInstance.getInstance().stopApplication();
+            }
+
+            String userJson = packet.getRequestContent().toPrettyString();
+            try {
+                this.selfUser = new ObjectMapper().readValue(userJson, User.class);
+            } catch (JsonProcessingException e) {
+                System.out.println(e.getMessage());
+                ClientInstance.getInstance().stopApplication();
+            }
+            Platform.runLater(() -> {
+                Gui.getInstance().setScene("dashboardScreen");
             });
         }
 

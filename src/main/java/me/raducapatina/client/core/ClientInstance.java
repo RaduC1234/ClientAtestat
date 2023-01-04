@@ -11,7 +11,7 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import javafx.application.Platform;
 import me.raducapatina.client.ResourceClientProperties;
-import me.raducapatina.client.data.Account;
+import me.raducapatina.client.data.User;
 import me.raducapatina.client.gui.Gui;
 
 import java.util.concurrent.ExecutorService;
@@ -21,16 +21,18 @@ public class ClientInstance {
 
     private static ClientInstance instance = null;
 
-    private Account account = null;
     private Gui gui = null;
 
     private ExecutorService networkService = Executors.newSingleThreadExecutor();
-    private RequestChannelHandler requestHandler = new RequestChannelHandler();
+    private ClientRequestHandler requestHandler = new ClientRequestHandler();
+
+    private User selfUser = null;
 
     private EventLoopGroup group;
 
     private ClientInstance() {
-        this.requestHandler.addRequestTemplate("AUTHENTICATION", new RequestChannelHandler.AuthenticationTemplate(this.account));
+        this.requestHandler.addRequestTemplate("AUTHENTICATION", new ClientRequestHandler.AuthenticationTemplate());
+        this.requestHandler.addRequestTemplate("GET_SELF_USER", new ClientRequestHandler.GetSelfUser(this.selfUser));
     }
 
     public static synchronized ClientInstance getInstance() {
@@ -63,6 +65,7 @@ public class ClientInstance {
                                 @Override
                                 public void channelActive(ChannelHandlerContext ctx) throws Exception {
                                     gui.setScene("loginScreen");
+                                    ClientInstance.getInstance().getRequestHandler().setCtx(ctx);
 
                                     Platform.runLater(() -> {
                                         gui.getLoginController().login_signin_button.setOnAction(event -> requestHandler.sendRequest(
@@ -93,7 +96,7 @@ public class ClientInstance {
             try {
                 clientBootstrap.connect(
                                 (String) ResourceClientProperties.getInstance().getObject("host"),
-                                (Integer) ResourceClientProperties.getInstance().getObject("port"))
+                                /*(Integer) ResourceClientProperties.getInstance().getObject("port")*/8080)
                         .sync().channel();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -108,7 +111,7 @@ public class ClientInstance {
         System.exit(0); // just to be sure
     }
 
-    public synchronized RequestChannelHandler getRequestHandler() {
+    public synchronized ClientRequestHandler getRequestHandler() {
         return requestHandler;
     }
 }

@@ -28,7 +28,8 @@ public class Packet {
         this.requestId = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
     }
 
-    public ChannelFuture sendThis() throws Exception {
+    public ChannelFuture sendThis(boolean status) throws Exception {
+        this.requestStatus = status;
         return this.channelHandlerContext.writeAndFlush(this.toJson() + "\r\n");
     }
 
