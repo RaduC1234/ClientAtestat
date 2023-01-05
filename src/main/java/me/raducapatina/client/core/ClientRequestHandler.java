@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelHandlerContext;
 import javafx.application.Platform;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import me.raducapatina.client.data.User;
 import me.raducapatina.client.gui.Gui;
 
@@ -171,6 +173,21 @@ public class ClientRequestHandler {
                 System.out.println(e.getMessage());
                 ClientInstance.getInstance().stopApplication();
             }
+
+            WebEngine engine = Gui.getInstance().getMainModule().getBrowser().getEngine();
+
+            switch (selfUser.getType()) {
+
+                case STUDENT -> {
+                }
+                case TEACHER -> {
+                }
+                case ADMIN -> {
+                }
+                case UNKNOWN -> {
+                }
+            }
+
             Platform.runLater(() -> {
                 Gui.getInstance().setScene("dashboardScreen");
             });

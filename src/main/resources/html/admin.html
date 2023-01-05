@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="admin.css" rel="stylesheet">
     <link href="common.css" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,7 +33,7 @@
                 </div>
             </div>
             <div class="sidebar" id="sidebar">
-                <a href="main.html" id="_MAIN_PAGE_" class="active">
+                <a href="main.html" id="_MAIN_PAGE_">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-square" viewBox="0 0 16 16">
                         <path
@@ -48,7 +51,7 @@
                     </svg>
                     <h3> Student</h3>
                 </a>
-                <a href="admin.html" id="_ADMIN_">
+                <a href="admin.html" id="_ADMIN_" class="active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-database-gear" viewBox="0 0 16 16">
                         <path
@@ -99,7 +102,11 @@
             </div>
         </aside>
         <!----------------- END OF ASIDE --------------->
+        <main>
+            <div id="table"></div>
+        </main>
     </div>
+    <script src="crud.js"></script>
 </body>
 
 </html>

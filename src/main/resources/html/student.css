@@ -1,0 +1,133 @@
+/*===============MAIN=================*/
+
+main {
+  margin-top: 1.4rem;
+}
+
+/* main .date {
+  display: inline-block;
+  background: var(--color-light);
+  border-radius: var(--border-radius-1);
+  margin-top: 1rem;
+  padding: 0.5rem 1.6rem;
+}
+
+main .date input[type="date"] {
+  background: transparent;
+} */
+
+main .pagetitle {
+  background: transparent;
+}
+
+.card-body {
+  width: 400px;
+  height: 300px;
+}
+
+/*context-menu*/
+.menu-wrapper {
+  visibility: hidden;
+  position: absolute;
+  width: 300px;
+  border-radius: 10px;
+  background: var(--color-light);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+.menu-wrapper .menu {
+  padding: 10px 12px;
+}
+.content .item {
+  list-style: none;
+  font-size: 1.6rem;
+  height: 50px;
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  align-items: center;
+  border-radius: 5px;
+  margin-bottom: 2px;
+  padding: 0 5px 0 10px;
+}
+.content .item:hover {
+  background: #f2f2f2;
+}
+.content .item span {
+  margin-left: 8px;
+  font-size: 19px;
+}
+.content .setting {
+  display: flex;
+  margin-top: -5px;
+  padding: 5px 12px;
+  border-top: 1px solid #ccc;
+}
+
+#myProgress {
+  width: 100%;
+  border-radius: 1rem;
+  padding-left: 1rem;
+  background-color: white;
+  margin-top: 1rem;
+}
+
+#myBar {
+  width: 1%;
+  height: 30px;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  background-color: var(--color-primary);
+  margin-left: -1rem;
+}
+
+.main-orar {
+  border-radius: 2rem;
+  padding: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+  height: 10rem;
+  background: white;
+  align-items: bottom;
+  justify-content: center;
+}
+.main-chart-wrapper {
+  background: white;
+  padding: 1rem;
+  border-radius: 2rem;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+}
+
+.right {
+  margin-top: 1.4rem;
+}
+
+.right .top {
+  display: flex;
+  justify-content: end;
+  gap: 2rem;
+}
+
+.right .top button {
+  display: none;
+}
+
+.right .theme-toggler {
+  background: var(--color-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2rem;
+  width: 4.5rem;
+  cursor: pointer;
+  border-radius: 2rem;
+}
+
+.right .theme-toggler span {
+  font-size: 1.2rem;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

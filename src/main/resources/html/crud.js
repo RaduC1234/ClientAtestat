@@ -40,7 +40,7 @@ function addAllColumnHeaders(arr, table) {
     return columnSet;
 }
 
-document.body.appendChild(buildHtmlTable([{
+document.getElementById("table").appendChild(buildHtmlTable([{
     "id": "1",
     "name": "radu1234",
     "password": "1234",
