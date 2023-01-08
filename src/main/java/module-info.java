@@ -5,6 +5,7 @@ module me.raducapatina.client {
     requires io.netty.transport;
     requires io.netty.codec;
     requires com.fasterxml.jackson.databind;
+    requires jdk.jsobject;
 
 
     opens me.raducapatina.client to javafx.fxml;

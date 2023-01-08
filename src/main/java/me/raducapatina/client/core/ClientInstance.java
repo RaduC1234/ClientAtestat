@@ -114,4 +114,8 @@ public class ClientInstance {
     public synchronized ClientRequestHandler getRequestHandler() {
         return requestHandler;
     }
+
+    public User getUser() {
+        return this.selfUser;
+    }
 }

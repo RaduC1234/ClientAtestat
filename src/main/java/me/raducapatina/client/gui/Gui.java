@@ -2,19 +2,23 @@ package me.raducapatina.client.gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import netscape.javascript.*;
 import me.raducapatina.client.MainClient;
 import me.raducapatina.client.core.ClientInstance;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,8 +32,9 @@ public class Gui extends Application  {
     private static Gui instance = null;
 
     private LoginController loginController = new LoginController();
-
     private SceneController sceneController = new SceneController();
+
+    private WebModule mainModule = new WebModule("/html/main.html");
 
     public Gui() {
         instance = this;
@@ -61,7 +66,7 @@ public class Gui extends Application  {
         sceneController = new SceneController(stage);
         sceneController.addScreen("splashScreen", new Scene(splashScreen.load(), SCREEN_WIDTH, SCREEN_HEIGHT));
         sceneController.addScreen("loginScreen", new Scene(loginScreen.load(), SCREEN_WIDTH, SCREEN_HEIGHT));
-        sceneController.addScreen("dashboardScreen", new Scene(new WebModule("/html/main.html"), SCREEN_WIDTH, SCREEN_HEIGHT, Color.web("#666970")));
+        sceneController.addScreen("dashboardScreen", new Scene(mainModule, SCREEN_WIDTH, SCREEN_HEIGHT, Color.web("#666970")));
         sceneController.addScreen("loadingScreen", new Scene(new WebModule("/html/loading.html"), SCREEN_WIDTH, SCREEN_HEIGHT, Color.web("#666970")));
 
         sceneController.activate("splashScreen");
@@ -87,10 +92,14 @@ public class Gui extends Application  {
         return this.loginController;
     }
 
+    public synchronized WebModule getMainModule() {
+        return mainModule;
+    }
+
     public static class WebModule extends Pane {
 
-        final WebView browser = new WebView();
-        final WebEngine webEngine = browser.getEngine();
+        private final WebView browser = new WebView();
+        private final WebEngine webEngine = browser.getEngine();
 
         public WebModule(String source) {
             //apply the styles
@@ -119,7 +128,13 @@ public class Gui extends Application  {
         protected double computePrefHeight(double width) {
             return 500;
         }
-    }
 
-    public static class Browser extends Region {}
+        public WebView getBrowser() {
+            return browser;
+        }
+
+        public WebEngine getWebEngine() {
+            return webEngine;
+        }
+    }
 }

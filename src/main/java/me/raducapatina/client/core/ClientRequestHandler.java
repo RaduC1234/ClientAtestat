@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelHandlerContext;
 import javafx.application.Platform;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import me.raducapatina.client.data.User;
 import me.raducapatina.client.gui.Gui;
 
