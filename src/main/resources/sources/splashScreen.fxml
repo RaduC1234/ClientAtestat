@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.web.*?>
 <?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="800.0" minWidth="1600.0" style="-fx-background-color: #161A1E;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="800.0" minWidth="1600.0" stylesheets="@white-splash.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.raducapatina.client.gui.SplashController">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="500.0" layoutX="550.0" layoutY="150.0" pickOnBounds="true">
-         <image>
-            <Image url="@../assets/splash-logo.png" />
-         </image>
-      </ImageView>
+      <HBox alignment="CENTER" prefHeight="800.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="800.0" prefWidth="556.0">
+               <children>
+                  <WebView fx:id="loading_WebView" prefHeight="308.0" prefWidth="500.0" />
+                  <HBox alignment="CENTER" prefHeight="69.0" prefWidth="500.0" spacing="5.0">
+                     <children>
+                        <ImageView fitHeight="91.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/logo-black.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Educational" wrappingWidth="155.3828125">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Text>
+                        <Text fill="#7380ec" strokeType="OUTSIDE" strokeWidth="0.0" styleClass=".text" text="Software" wrappingWidth="151.3828125">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

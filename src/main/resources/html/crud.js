@@ -40,22 +40,18 @@ function addAllColumnHeaders(arr, table) {
     return columnSet;
 }
 
-document.getElementById("table").appendChild(buildHtmlTable([{
-    "id": "1",
-    "name": "radu1234",
-    "password": "1234",
-    "type": "admin"
-},
-{
-    "id": "2",
-    "name": "radu1234",
-    "password": "1234",
-    "type": "admin"
-},
-{
-    "id": "3",
-    "name": "radu1234",
-    "password": "1234",
-    "type": "admin"
+function addColumnToTable(input) {
+
 }
-]));
+
+function removeColumnFromTable(id) {
+
+}
+
+function removeTable() {
+    document.getElementById("crud-table").innerHTML = "";
+}
+
+function createTable(json) {
+    document.getElementById("crud-table").appendChild(buildHtmlTable(json));
+}

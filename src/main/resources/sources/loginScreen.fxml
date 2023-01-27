@@ -1,36 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane minHeight="800.0" minWidth="1600.0" prefHeight="600.0" prefWidth="1200.0" styleClass="root" stylesheets="@login.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="800.0" minWidth="1600.0" prefHeight="600.0" prefWidth="1200.0" styleClass="root" stylesheets="@white-login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane prefHeight="30.0" prefWidth="450.0" styleClass="manu-pane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Region prefHeight="570.0" prefWidth="450.0" styleClass="title-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0" />
-      <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="25.0" layoutY="206.0" pickOnBounds="true" styleClass="title-image" />
-      <Label layoutX="574.0" layoutY="263.0" prefHeight="44.0" prefWidth="155.0" text="Sign In" textFill="WHITE">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Label>
-      <TextField fx:id="login_username_field" layoutX="573.0" layoutY="344.0" prefHeight="25.0" prefWidth="507.0" promptText="Username" />
-      <TextField fx:id="login_password_field" layoutX="573.0" layoutY="406.0" prefHeight="25.0" prefWidth="507.0" promptText="Password" />
-      <Button fx:id="login_signin_button" layoutX="574.0" layoutY="480.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="507.0" stylesheets="@login.css" text="Sign In" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <Label fx:id="login_info_label" layoutX="573.0" layoutY="450.0" prefHeight="21.0" prefWidth="507.0" textFill="#b80000">
-         <font>
-            <Font name="Times New Roman" size="19.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="35.0" layoutY="216.0" pickOnBounds="true">
-         <image>
-            <Image url="@../assets/splash-logo.png" />
-         </image>
-      </ImageView>
+      <HBox alignment="CENTER" layoutX="-25.0" prefHeight="800.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="800.0" prefWidth="550.0" spacing="10.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="107.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/tray_logo.png" />
+                           </image></ImageView>
+                     </children>
+                  </HBox>
+                  <Label prefHeight="58.0" prefWidth="128.0" styleClass="signin-label" text="Log in" textAlignment="CENTER">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="login_username_field" prefHeight="25.0" prefWidth="507.0" promptText="Username" styleClass="input-field">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></TextField>
+                  <TextField fx:id="login_password_field" prefHeight="25.0" prefWidth="507.0" promptText="Password" styleClass="input-field">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin></TextField>
+                  <Label fx:id="login_info_label" prefHeight="21.0" prefWidth="507.0" textFill="#b80000">
+                     <font>
+                        <Font name="Times New Roman" size="19.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="login_signin_button" mnemonicParsing="false" prefHeight="38.0" prefWidth="507.0" stylesheets="@white-login.css" text="Log In" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

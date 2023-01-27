@@ -6,7 +6,7 @@ body {
   width: 100vw;
   margin: 0;
   padding: 0;
-  background: #f6f6f9;
+  background: transparent;
 }
 .container {
   position: relative;

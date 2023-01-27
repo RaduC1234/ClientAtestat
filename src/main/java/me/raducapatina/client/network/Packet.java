@@ -1,4 +1,4 @@
-package me.raducapatina.client.core;
+package me.raducapatina.client.network;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -94,7 +94,10 @@ public class Packet {
         UNKNOWN_REQUEST,
         REQUEST_SYNTAX_ERROR,
 
+        NOT_AUTHENTICATED,
+        ACCESS_FORBIDDEN,
+        USER_IN_USE,
         USER_NOT_FOUND,
-        INVALID_PASSWORD,
+        INVALID_PASSWORD, NOT_IMPLEMENTED,
     }
 }

@@ -6,11 +6,12 @@ import java.util.Set;
 
 public class User implements Serializable {
 
-    public Long id;
-    public String username;
-    public String password;
-    public UserType type;
-    public Set<Subject> subjects = new LinkedHashSet<>();
+    private Long id;
+    private String username;
+    private String password;
+    private UserType type;
+    private Set<Subject> subjects = new LinkedHashSet<>();
+    private Set<Grade> grades = new LinkedHashSet<>();
 
     public User() {
     }
@@ -66,5 +67,9 @@ public class User implements Serializable {
     public User setSubjects(Set<Subject> subjects) {
         this.subjects = subjects;
         return this;
+    }
+
+    public Set<Grade> getGrades() {
+        return grades;
     }
 }
