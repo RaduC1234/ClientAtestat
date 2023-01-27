@@ -1,16 +1,82 @@
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
+.report-card-tabs {
   width: 100%;
+  height: 10rem;
+  float: left;
+}
+.camp-tabs {
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: var(--card-title-padding);
+  text-align: center;
+  width: 100%;
+  clear: both;
 }
 
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+.admin-title {
+  display: grid;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.8rem;
+  position: absolute;
 }
-
-tr:nth-child(even) {
-  background-color: #dddddd;
+.admin-title::after {
+  border-bottom: 1px solid #121a24;
+  content: "";
+  display: block;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.table-container {
+  padding-top: 7rem;
+}
+.table-bottom-bar {
+  margin-top: 1rem;
+}
+table {
+  font-size: 1rem;
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+tr {
+  text-align: center;
+}
+td {
+  padding: 0.3rem;
+  border-top: 1px solid #121a24;
+}
+.element-right {
+  float: right;
+  padding-right: 3rem;
+}
+.element-left {
+  float: left;
+  padding-left: 3rem;
+}
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  margin-right: 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn svg {
+  display: inline-block;
+  align-items: center;
+}
+.btn-primary {
+  color: #fff;
+  background-color: var(--color-primary-variant);
+  border-color: var(--color-primary-variant);
 }

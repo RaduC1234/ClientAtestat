@@ -2,19 +2,8 @@
 
 main {
   margin-top: 1.4rem;
+  width: 100%;
 }
-
-/* main .date {
-  display: inline-block;
-  background: var(--color-light);
-  border-radius: var(--border-radius-1);
-  margin-top: 1rem;
-  padding: 0.5rem 1.6rem;
-}
-
-main .date input[type="date"] {
-  background: transparent;
-} */
 
 main .pagetitle {
   background: transparent;

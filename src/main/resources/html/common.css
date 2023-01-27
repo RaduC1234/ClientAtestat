@@ -11,19 +11,40 @@
   --color-info-light: #dce1eb;
   --color-dark: #363949;
   --color-light: rgba(132, 139, 200, 0.18);
-  --color-primary-variant: #111e88;
+  --color-primary-variant: #273bd6;
   --color-dark-variant: #677483;
   --color-background: #f6f6f9;
+  --color-foreground: #fff;
 
   --card-border-radius: 2rem;
   --border-radius-1: o.4rem;
   --border-radius-2: o.8rem;
   --border-radius-3: 1.2rem;
 
+  --card-title-padding: 20px 20px 0;
+
   --card-padding: 1.8rem;
   --padding-1: 1.2rem;
 
-  --box-shadow: 0 2rem 3rem var(-color-light);
+  --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  /* --gray-50: #f5f8fd;
+  --gray-100: #f1f5fb;
+  --gray-150: #eaf0f8;
+  --gray-200: #e0e9f4;
+  --gray-250: #d6e0ed;
+  --gray-300: #bbc9dc;
+  --gray-350: #a2b4cb;
+  --gray-400: #8396af;
+  --gray-450: #657892;
+  --gray-500: #576b85;
+  --gray-550: #4d5e74;
+  --gray-600: #3f4d62;
+  --gray-650: #2e3c50;
+  --gray-700: #232e3c;
+  --gray-750: #1b2633;
+  --gray-800: #121a24;
+  --gray-900: #0d1219; */
 }
 
 * {
@@ -54,7 +75,7 @@ body {
   width: 96%;
   margin: 0 auto;
   gap: 1.8rem;
-  grid-template-columns: 14rem auto 23rem;
+  grid-template-columns: 14rem auto;
 }
 a {
   color: var(--color-dark);
@@ -66,7 +87,7 @@ img {
 }
 
 h1 {
-  font-weight: 800;
+  font-weight: 400;
   font-size: 1.8rem;
 }
 
@@ -119,16 +140,60 @@ b {
   color: var(--color-warning);
 }
 
+.shadow {
+  box-shadow: var(--box-shadow);
+}
+
+.rounded-edge {
+  border-radius: 25px;
+}
+
+.rounded-edge-top {
+  border-radius: 25px 25px 0 0;
+}
+.rounded-edge-bottom {
+  border-radius: 0 0 25px 25px;
+}
+
+.container-main {
+  margin: 1.4rem;
+}
+
+.container-width {
+  float: right;
+  width: 100%;
+}
+
+.container-full {
+  position: relative;
+  float: right;
+  height: 100%;
+  width: 100%;
+}
+
+.foreground {
+  background: var(--color-foreground);
+}
+
+.text-middle {
+  text-align: center;
+}
+
+div {
+  display: block;
+}
+
 aside {
   height: 100vh;
 }
 
 aside .top {
-  background: white;
+  background: var(--color-foreground);
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 1.4rem;
+  padding: 0.5rem;
 }
 
 aside .logo {
@@ -146,7 +211,7 @@ aside .close {
 }
 /*===================SIDEBAR================*/
 aside .sidebar {
-  background: rgb(255, 255, 255);
+  background: var(--color-foreground);
   display: flex;
   flex-direction: column;
   height: 86vh;

@@ -2,8 +2,6 @@ package me.raducapatina.client.gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
@@ -15,13 +13,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import netscape.javascript.*;
 import me.raducapatina.client.MainClient;
 import me.raducapatina.client.core.ClientInstance;
-import org.w3c.dom.Document;
+import me.raducapatina.client.data.Article;
+import me.raducapatina.client.data.UserType;
+import netscape.javascript.JSObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Gui extends Application  {
@@ -35,6 +36,8 @@ public class Gui extends Application  {
     private SceneController sceneController = new SceneController();
 
     private WebModule mainModule = new WebModule("/html/main.html");
+
+    private List<Article> mainPageArticles = new ArrayList<>();
 
     public Gui() {
         instance = this;
@@ -72,8 +75,69 @@ public class Gui extends Application  {
         sceneController.activate("splashScreen");
     }
 
+    // called when network service has done getting initial data from server
+    public void loadGuiBridge() {
+        Platform.runLater(()->{
+
+            WebEngine webEngine = mainModule.getWebEngine();
+
+            webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+                if (Worker.State.SUCCEEDED == newValue) {
+
+                    JSObject window = (JSObject) webEngine.executeScript("window");
+                    window.setMember("Gui", this);
+
+                    webEngine.executeScript(
+                            "const event = new Event('engineReady');" +
+                            "document.dispatchEvent(event);"
+                    );
+                }
+            });
+            System.out.println("bridge loaded");
+            loadSideBar();
+        });
+    }
+
+    public void loadSideBar() {
+
+        UserType userType = ClientInstance.getInstance().getUser().getType();
+
+        switch (userType) {
+
+            case STUDENT -> {
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
+            }
+            case TEACHER -> {
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
+            }
+            case ADMIN -> {
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
+            }
+            case DEBUG, UNKNOWN -> {
+            }
+        }
+    }
+
+    public void requestAdminReadUsers () {
+        System.out.println("requestAdminReadUsers ");
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_READ_USERS", null);
+    }
+
+    public void callbackAdminReadUsers(String userJson) {
+        runOnGui(() -> {
+
+        });
+    }
+
+    public void logOut() {
+        System.out.println("logOut");
+    }
+
     private void init(Stage stage) {
-        stage.setTitle("Education Software Client. Pre-Alpha 0.4");
+        stage.setTitle("Education Software Client. Alpha 1.0");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainClient.class.getResourceAsStream("/assets/tray_logo.png"))));
         stage.setOnCloseRequest(event -> ClientInstance.getInstance().stopApplication());
         stage.setWidth(SCREEN_WIDTH);
@@ -94,6 +158,14 @@ public class Gui extends Application  {
 
     public synchronized WebModule getMainModule() {
         return mainModule;
+    }
+
+    public List<Article> getMainPageArticles() {
+        return this.mainPageArticles;
+    }
+
+    public void runOnGui(Runnable runnable) {
+        Platform.runLater(runnable);
     }
 
     public static class WebModule extends Pane {

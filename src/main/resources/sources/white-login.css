@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap");
+.root {
+  -fx-background-color: #fff;
+  -fx-min-height: 800px;
+  -fx-min-widht: 1200px;
+  -fx-pref-height: 800px;
+  -fx-pref-widht: 1200px;
+  -fx-font-family: "Source Sans Pro", sans-serif;
+}
+
+.signin-label {
+  -fx-font-family: "Source Sans Pro", sans-serif;
+}
+
+.input-field {
+  -fx-background-color: -fx-text-box-border, -fx-background;
+  -fx-background-insets: 0, 0 0 1 0;
+  -fx-background-radius: 0;
+  -fx-max-width: 500px;
+  -fx-max-height: 20px;
+}
+
+.input-field:focused {
+  -fx-background-color: -fx-focus-color, -fx-background;
+}
+
+.button {
+  -fx-border-width: 2;
+  -fx-background-color: #7382ef;
+  -fx-background-radius: 25px;
+  -fx-text-fill: #ffffff;
+  -fx-cursor: hand;
+}
+
+.button:hover {
+  -fx-background-color: #5a66bc;
+}
+
+.button:pressed {
+  -fx-background-color: #353c6f;
+}
