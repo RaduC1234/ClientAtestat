@@ -184,6 +184,13 @@ public class ClientNetworkService {
         waitingOutboundPackets.add(packet);
     }
 
+    /**
+     * Instructs the service to send a request on the next network-loop using the known {@link ChannelHandlerContext}.
+     *
+     * @param name   of the request.
+     * @param params any parameters that the Request might need.
+     * @throws IllegalArgumentException if the request name is invalid.
+     */
     public void sendRequest(String name, Object[] params) throws IllegalArgumentException {
         if (requestsTemplates.get(name) == null)
             throw new IllegalArgumentException("No request template found with passed name");
@@ -291,9 +298,9 @@ public class ClientNetworkService {
         public void onAnswer(Packet packet) {
             JsonNode node = packet.getRequestContent().get("articles");
             List<Article> mainPageArticles = Gui.getInstance().getMainPageArticles();
-            for (final JsonNode fnode : node) {
+            for (final JsonNode tempNode : node) {
                 try {
-                    Article e = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).treeToValue(fnode, Article.class);
+                    Article e = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).treeToValue(tempNode, Article.class);
                     mainPageArticles.add(e);
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
@@ -321,7 +328,8 @@ public class ClientNetworkService {
 
         @Override
         public void onAnswer(Packet packet) {
-            Gui.getInstance().callbackAdminReadUsers(packet.getRequestContent().toPrettyString());
+            JsonNode users = packet.getRequestContent().get("users");
+            Gui.getInstance().callbackAdminReadUsers(users);
         }
 
         @Override

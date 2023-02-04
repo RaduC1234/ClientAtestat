@@ -1,5 +1,7 @@
 package me.raducapatina.client.gui;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
@@ -39,6 +41,7 @@ public class Gui extends Application  {
 
     private List<Article> mainPageArticles = new ArrayList<>();
 
+    // Do not use this constructor and do not declare it private
     public Gui() {
         instance = this;
     }
@@ -105,31 +108,47 @@ public class Gui extends Application  {
         switch (userType) {
 
             case STUDENT -> {
-                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
-                this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
+                //this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
+                //this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
             }
             case TEACHER -> {
-                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
-                this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
+                //this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
+                //this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
             }
             case ADMIN -> {
-                this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
-                this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
+                //this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
+                //this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
             }
             case DEBUG, UNKNOWN -> {
             }
         }
     }
 
-    public void requestAdminReadUsers () {
+    public void requestAdminReadUsers() {
         System.out.println("requestAdminReadUsers ");
         ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_READ_USERS", null);
     }
 
-    public void callbackAdminReadUsers(String userJson) {
-        runOnGui(() -> {
+    public void callbackAdminReadUsers(JsonNode usersJson) {
 
+        for(JsonNode node : usersJson) {
+            ((ObjectNode)node).remove("subjects");
+            ((ObjectNode)node).remove("grades");
+        }
+
+        runOnGui(() -> {
+            mainModule.getWebEngine().executeScript("" +
+                    "removeTable();" +
+                    "createTable(" +  usersJson.toPrettyString() + ")");
         });
+    }
+
+    private void generateTableHeaders(String userJson) {
+
+    }
+
+    public void requestAddColumnToUsers() {
+
     }
 
     public void logOut() {
@@ -137,7 +156,7 @@ public class Gui extends Application  {
     }
 
     private void init(Stage stage) {
-        stage.setTitle("Education Software Client. Alpha 1.0");
+        stage.setTitle("Education Software Client. Alpha 2.0");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainClient.class.getResourceAsStream("/assets/tray_logo.png"))));
         stage.setOnCloseRequest(event -> ClientInstance.getInstance().stopApplication());
         stage.setWidth(SCREEN_WIDTH);
