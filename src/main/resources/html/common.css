@@ -240,7 +240,6 @@ aside {
 }
 
 aside .top {
-  background: var(--color-foreground);
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -130,7 +130,7 @@
                 </div>
                 <div class="table-bottom-bar">
                     <div class="element-left">
-                        <button class="btn btn-primary btn-labeled" onclick="Gui.">
+                        <button class="btn btn-primary btn-labeled" id="add-item" onclick="Gui.">
                             <span class="btn-label">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-plus" viewBox="0 0 16 16">
@@ -168,20 +168,19 @@
                 </div>
             </div>
         </div>
-        <section class="modal hidden">
-            <div class="flex">
-                <button class="btn-round">X</button>
+        <div id="myModal" class="modal">
+          <header part="header"> 
+                <slot name="header"> <h2> Log in  </h2></slot>
+            </header>
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <input type="text"> <h3> username </h3> </input>
+              <input type="text"> <h3>  password  </h3> </input>
+              <input type="text"> <h3>  type  </h3> </input>
             </div>
-            <div>
-                <p>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora fugiat ipsum dolorum adipisci, in
-                    aspernatur dicta magni nihil eum, minima non exercitationem voluptates ducimus saepe accusamus velit
-                    atque ullam a.
-                </p>
-            </div>
-
-            <button class="btn">Save</button>
-        </section>
+          
+          </div>
     </div>
     <script src="javaBridge.fx.js"></script>
     <script src="crud.js"></script>
