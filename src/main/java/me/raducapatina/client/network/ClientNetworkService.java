@@ -140,7 +140,9 @@ public class ClientNetworkService {
 
     public void onMessage(ChannelHandlerContext channelHandlerContext, String message) {
         try {
-            Packet receivedPacket = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).readValue(message, Packet.class);
+            Packet receivedPacket = new ObjectMapper()
+                    .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                    .readValue(message, Packet.class);
             receivedPacket.setChannelHandlerContext(channelHandlerContext);
 
             // check if the packet is an answer to an inbound request
@@ -153,11 +155,13 @@ public class ClientNetworkService {
                     }
                 }
                 // throw error: no request found
+                assert false : "No request found with id provided.";
             }
 
             // packet is a new request at this point
             if (requestsTemplates.get(receivedPacket.getRequestName()) == null) {
                 // throw error: no request with this name found
+                assert false : "Invalid request name: " + receivedPacket.getRequestName();
                 return;
             }
 
@@ -167,6 +171,7 @@ public class ClientNetworkService {
             assert false : e.getMessage();
         }
     }
+
 
     /**
      * Instructs the service to send a request on the next network-loop using the specified {@link ChannelHandlerContext}.

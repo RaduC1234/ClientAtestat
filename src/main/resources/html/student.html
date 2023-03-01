@@ -119,26 +119,20 @@
         <main>
             <div class="pagetitle">
                 <h1 id="_GREETING_">Hello</h1>
-                <script>
-                    const date = (new Date()).getHours();
-                    if (date > 6 && date < 13) {
-                        document.getElementById("_GREETING_").innerHTML = "Good Morning";
-                    } else if (date >= 13 && date < 18) {
-                        document.getElementById("_GREETING_").innerHTML = "Good Afternoon";
-                    } else {
-                        document.getElementById("_GREETING_").innerHTML = "Good Evening";
-                    }
 
-
-                </script>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a>
 
                     </ol>
                 </nav>
-                <div id="myProgress">
-                    <div id="myBar"></div>
+
+                <div id="student-progress-wrapper">
+                    <div id="student-progress"></div>
+                </div>
+
+                <div class="table-container" id="student-grades-table">
+                    <!-- js-generated-content -->
                 </div>
             </div>
 
@@ -210,29 +204,33 @@
             </div>
         </div>
     </div>
+    <script>
+        const date = (new Date()).getHours();
+        if (date > 6 && date < 13) {
+            document.getElementById("_GREETING_").innerHTML = "Good Morning";
+        } else if (date >= 13 && date < 18) {
+            document.getElementById("_GREETING_").innerHTML = "Good Afternoon";
+        } else {
+            document.getElementById("_GREETING_").innerHTML = "Good Evening";
+        }
 
-    <!--<script>
-    const contextMenu = document.querySelector(".menu-wrapper");
+    </script>
+    <script>
+        const today = new Date();
+        const yearStart = new Date(today.getFullYear(), 8, 1); // September 1st
+        const yearEnd = new Date(today.getFullYear() + 1, 7, 31); // August 31st of next year
+        const totalDays = Math.floor((yearEnd - yearStart) / (1000 * 60 * 60 * 24)); // Total number of days in the academic year
+        const elapsedDaradu1ys = Math.abs(Math.floor((today - yearStart) / (1000 * 60 * 60 * 24))); // Number of days elapsed since September 1st
+        console.log(elapsedDays);
 
-    window.addEventListener("contextmenu", e => {
-        e.preventDefault();
-        let x = e.offsetX, y = e.offsetY,
-            winWidth = window.innerWidth,
-            winHeight = window.innerHeight,
-            cmWidth = contextMenu.offsetWidth,
-            cmHeight = contextMenu.offsetHeight;
+        const progress = document.getElementById("student-progress");
+        progress.style.width = `${(elapsedDays / totalDays) * 100}%`;
+    </script>
+    <script>
+        function loadPage() {
 
-
-        x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
-        y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
-
-        contextMenu.style.left = `${x}px`;
-        contextMenu.style.top = `${y}px`;
-        contextMenu.style.visibility = "visible";
-    });
-
-    document.addEventListener("click", () => contextMenu.style.visibility = "hidden");
-</script>-->
+        }
+    </script>
     <script src="javaBridge.fx.js"></script>
 </body>
 

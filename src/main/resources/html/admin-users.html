@@ -9,7 +9,7 @@
     <link href="common.css" rel="stylesheet">
 </head>
 
-<body onload="Gui.requestAdminReadUsers()">
+<body>
     <div class="container">
         <aside>
             <div class="top shadow rounded-edge-top">
@@ -125,12 +125,12 @@
 
             <div class="container-full shadow rounded-edge text-middle foreground">
                 <h1 class="admin-title">Users</h1>
-                <div class="table-container" id="crud-table">
+                <div class="table-container" id="admin-users-table">
                     <!-- js-generated-content -->
                 </div>
                 <div class="table-bottom-bar">
                     <div class="element-left">
-                        <button class="btn btn-primary btn-labeled" id="add-item" onclick="Gui.">
+                        <button class="btn btn-primary btn-labeled" onclick="openModal()">
                             <span class="btn-label">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-plus" viewBox="0 0 16 16">
@@ -168,22 +168,16 @@
                 </div>
             </div>
         </div>
-        <div id="myModal" class="modal">
-          <header part="header"> 
-                <slot name="header"> <h2> Log in  </h2></slot>
-            </header>
-            <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <input type="text"> <h3> username </h3> </input>
-              <input type="text"> <h3>  password  </h3> </input>
-              <input type="text"> <h3>  type  </h3> </input>
-            </div>
-          
-          </div>
+
     </div>
+    <script>
+        function loadPage() {
+            Gui.requestAdminReadUsers();
+        }
+    </script>
+    <script src="modal.js"></script>
     <script src="javaBridge.fx.js"></script>
-    <script src="crud.js"></script>
+    <script src="tables.js"></script>
 </body>
 
 </html>

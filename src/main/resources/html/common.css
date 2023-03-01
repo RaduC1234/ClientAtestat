@@ -159,6 +159,12 @@ b {
   border-radius: 0 0 25px 25px;
 }
 
+.container-center {
+  position: relative;
+  left: 50%
+  right: 50%;
+}
+
 .container-main {
   margin: 1.4rem;
 }

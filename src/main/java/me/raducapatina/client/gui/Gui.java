@@ -94,15 +94,17 @@ public class Gui extends Application  {
                             "const event = new Event('engineReady');" +
                             "document.dispatchEvent(event);"
                     );
+
+                    loadPage();
                 }
             });
             System.out.println("bridge loaded");
-            loadSideBar();
         });
     }
 
-    public void loadSideBar() {
+    public void loadPage() {
 
+        // Sidebar
         UserType userType = ClientInstance.getInstance().getUser().getType();
 
         switch (userType) {
@@ -122,6 +124,9 @@ public class Gui extends Application  {
             case DEBUG, UNKNOWN -> {
             }
         }
+
+        // Other pages
+        mainModule.webEngine.executeScript("loadPage();");
     }
 
     public void requestAdminReadUsers() {
@@ -137,9 +142,7 @@ public class Gui extends Application  {
         }
 
         runOnGui(() -> {
-            mainModule.getWebEngine().executeScript("" +
-                    "removeTable();" +
-                    "createTable(" +  usersJson.toPrettyString() + ")");
+            mainModule.getWebEngine().executeScript("refreshTable(\"admin-users-table\", " +  usersJson.toPrettyString() + ")");
         });
     }
 

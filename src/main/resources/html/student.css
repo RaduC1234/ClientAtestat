@@ -52,7 +52,7 @@ main .pagetitle {
   border-top: 1px solid #ccc;
 }
 
-#myProgress {
+#student-progress-wrapper {
   width: 100%;
   border-radius: 1rem;
   padding-left: 1rem;
@@ -60,7 +60,7 @@ main .pagetitle {
   margin-top: 1rem;
 }
 
-#myBar {
+#student-progress {
   width: 1%;
   height: 30px;
   border-bottom-left-radius: 1rem;
