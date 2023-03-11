@@ -14,6 +14,7 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import javafx.application.Platform;
+import me.raducapatina.client.ResourceClientMessages;
 import me.raducapatina.client.ResourceClientProperties;
 import me.raducapatina.client.core.ClientInstance;
 import me.raducapatina.client.data.Article;
@@ -58,7 +59,6 @@ public class ClientNetworkService {
      *
      * @param name     name of the request
      * @param template instance of a class that implements {@link RequestTemplate}
-     * @return
      */
     public ClientNetworkService addRequestTemplate(String name, RequestTemplate template) {
         requestsTemplates.put(name, template);
@@ -238,7 +238,10 @@ public class ClientNetworkService {
                 return;
             }
             Platform.runLater(() -> {
-                Gui.getInstance().getLoginController().login_info_label.setText(packet.getRequestContent().get("message").asText());
+                Gui.getInstance().getLoginController().login_info_label
+                        .setText(ResourceClientMessages
+                                .getObjectAsString((packet
+                                        .getRequestContent().get("message").asText())));
             });
         }
 

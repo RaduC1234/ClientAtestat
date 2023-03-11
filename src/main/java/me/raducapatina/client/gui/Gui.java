@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import me.raducapatina.client.MainClient;
 import me.raducapatina.client.core.ClientInstance;
@@ -29,8 +30,8 @@ import java.util.Objects;
 
 public class Gui extends Application  {
 
-    public final int SCREEN_WIDTH = 1600;
-    public final int SCREEN_HEIGHT = 800;
+    public final int BASE_SCREEN_WIDTH = 1600;
+    public final int BASE_SCREEN_HEIGHT = 800;
 
     private static Gui instance = null;
 
@@ -70,10 +71,10 @@ public class Gui extends Application  {
         FXMLLoader loginScreen = new FXMLLoader(MainClient.class.getResource("/sources/loginScreen.fxml")); loginScreen.setController(loginController);
 
         sceneController = new SceneController(stage);
-        sceneController.addScreen("splashScreen", new Scene(splashScreen.load(), SCREEN_WIDTH, SCREEN_HEIGHT));
-        sceneController.addScreen("loginScreen", new Scene(loginScreen.load(), SCREEN_WIDTH, SCREEN_HEIGHT));
-        sceneController.addScreen("dashboardScreen", new Scene(mainModule, SCREEN_WIDTH, SCREEN_HEIGHT, Color.web("#666970")));
-        sceneController.addScreen("loadingScreen", new Scene(new WebModule("/html/loading.html"), SCREEN_WIDTH, SCREEN_HEIGHT, Color.web("#666970")));
+        sceneController.addScreen("splashScreen", new Scene(splashScreen.load(), BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT));
+        sceneController.addScreen("loginScreen", new Scene(loginScreen.load(), BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT));
+        sceneController.addScreen("dashboardScreen", new Scene(mainModule, BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT, Color.web("#666970")));
+        sceneController.addScreen("loadingScreen", new Scene(new WebModule("/html/loading.html"), BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT, Color.web("#666970")));
 
         sceneController.activate("splashScreen");
     }
@@ -162,8 +163,13 @@ public class Gui extends Application  {
         stage.setTitle("Education Software Client. Alpha 2.0");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainClient.class.getResourceAsStream("/assets/tray_logo.png"))));
         stage.setOnCloseRequest(event -> ClientInstance.getInstance().stopApplication());
-        stage.setWidth(SCREEN_WIDTH);
-        stage.setHeight(SCREEN_HEIGHT);
+
+        // Get the primary screen dimensions
+        double screenWidth = Screen.getPrimary().getBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getBounds().getHeight();
+
+        stage.setWidth(screenWidth * 4 / 5);
+        stage.setHeight(screenHeight * 3 / 4);
         stage.centerOnScreen();
         //stage.initStyle(StageStyle.UNDECORATED);
     }
