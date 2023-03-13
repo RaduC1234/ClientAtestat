@@ -38,7 +38,7 @@ public class Gui extends Application  {
     private LoginController loginController = new LoginController();
     private SceneController sceneController = new SceneController();
 
-    private WebModule mainModule = new WebModule("/html/main.html");
+    private WebModule mainModule = new WebModule("/html/main-page.html");
 
     private List<Article> mainPageArticles = new ArrayList<>();
 
