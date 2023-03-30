@@ -34,7 +34,26 @@ class JSONTable {
         dataCell.appendChild(document.createTextNode(cellValue));
         dataRow.appendChild(dataCell);
       }
+
+      // Add button to the end of the row
+      const buttonCell = document.createElement('td');
+      const button = document.createElement('button');
+      button.classList.add('btn', 'btn-danger');
+      button.innerText = 'Delete';
+      buttonCell.appendChild(button);
+      dataRow.appendChild(buttonCell);
+
       table.appendChild(dataRow);
+    }
+    const buttons = table.getElementsByTagName('button');
+
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () {
+        const row = buttons[i].closest('tr');
+        const idCell = row.cells[0];
+        const id = idCell.innerText;
+        Gui.requestAdminDeleteUsers(id);
+      });
     }
 
     // Replace any existing table in the container with the new one
