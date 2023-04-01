@@ -6,6 +6,7 @@ module me.raducapatina.client {
     requires io.netty.codec;
     requires com.fasterxml.jackson.databind;
     requires jdk.jsobject;
+    requires org.apache.logging.log4j;
 
 
     opens me.raducapatina.client to javafx.fxml;

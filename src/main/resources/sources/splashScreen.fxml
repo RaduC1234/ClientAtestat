@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.shape.*?>
@@ -10,7 +11,7 @@
 
 <AnchorPane minHeight="800.0" minWidth="1600.0" stylesheets="@white-splash.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.raducapatina.client.gui.SplashController">
    <children>
-      <HBox alignment="CENTER" prefHeight="800.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" prefHeight="800.0" prefWidth="1600.0" style="-fx-background-color: #1a2035;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" prefHeight="800.0" prefWidth="556.0">
                <children>
@@ -19,21 +20,22 @@
                      <children>
                         <ImageView fitHeight="91.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/logo-black.png" />
+                              <Image url="@../assets/tray_logo.png" />
                            </image>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Educational" wrappingWidth="155.3828125">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Educational" wrappingWidth="155.3828125">
                            <font>
                               <Font size="30.0" />
                            </font>
                         </Text>
-                        <Text fill="#7380ec" strokeType="OUTSIDE" strokeWidth="0.0" styleClass=".text" text="Software" wrappingWidth="151.3828125">
+                        <Text fill="#9b43a9" strokeType="OUTSIDE" strokeWidth="0.0" styleClass=".text" text="Software" wrappingWidth="151.3828125">
                            <font>
                               <Font size="30.0" />
                            </font>
                         </Text>
                      </children>
                   </HBox>
+                  <Text fill="#2c3759" strokeType="OUTSIDE" strokeWidth="0.0" text="\@ 2023 Radu Capatina &amp; Visan Ciprian" textAlignment="CENTER" wrappingWidth="424.13671875" />
                </children>
             </VBox>
          </children>

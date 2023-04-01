@@ -21,7 +21,7 @@
                            </image></ImageView>
                      </children>
                   </HBox>
-                  <Label prefHeight="58.0" prefWidth="128.0" styleClass="signin-label" text="Log in" textAlignment="CENTER">
+                  <Label prefHeight="58.0" prefWidth="128.0" styleClass="signin-label" text="Log in" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="40.0" />
                      </font>

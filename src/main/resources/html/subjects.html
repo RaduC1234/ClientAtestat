@@ -1,0 +1,222 @@
+<!doctype html>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Mind Owl</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+
+  <!-- Material Kit CSS -->
+  <link href="../assets/extern/css/material-dashboard.css" rel="stylesheet" />
+  <style>
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+  </style>
+</head>
+
+<body class="dark-edition">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
+      <!--
+    Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+    Tip 2: you can also add an image using data-image tag
+-->
+      <div class="logo">
+        <a href="main-page.html" class="simple-text logo-normal">
+          Mind Owl
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item" id="_MAIN_PAGE_">
+            <a class="nav-link" href="main-page.html">
+              <i class="bi bi-card-text"></i>
+              <p>Main Page</p>
+            </a>
+          </li>
+          <li class="nav-item " id="_STUDENT_">
+            <a class="nav-link" href="student.html">
+              <i class="bi bi-mortarboard"></i>
+              <p>Student</p>
+            </a>
+          </li>
+          <li class="nav-item" id="_MANAGEMENT_">
+            <a class="nav-link" href="management.html">
+              <i class="bi bi-database-check"></i>
+              <p>Management</p>
+            </a>
+          </li>
+          <li class="nav-item" id="_ADMIN_USERS_">
+            <a class="nav-link" href="users.html">
+              <i class="bi bi-file-earmark-person"></i>
+              <p>Users</p>
+            </a>
+          </li>
+          <li class="nav-item active" id="_ADMIN_SUBJECTS_">
+            <a class="nav-link" href="subjects.html">
+              <i class="bi bi-bar-chart-steps"></i>
+              <p>Subjects</p>
+            </a>
+          </li>
+          <li class="nav-item" id="_TEACHER_">
+            <a class="nav-link" href="teacher.html">
+              <i class="bi bi-easel2"></i>
+              <p>Teacher</p>
+            </a>
+          </li>
+          <li class="nav-item" id="_REP_CARD_">
+            <a class="nav-link" href="report-card.html">
+              <i class="bi bi-graph-up"></i>
+              <p>Report Card</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="settings.html">
+              <i class="bi bi-gear"></i>
+              <p>Settings</p>
+            </a>
+          </li>
+
+          <!-- your sidebar here -->
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:void(0)">Subjects</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+          <!-- your content here -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Subjects</h4>
+                  <p class="card-category"> Here you can add, modify subjects from your database</p>
+                </div>
+                <div class="card-body">
+                  <div id="admin-subjects" role="tablist">
+                    <!-- js generated content here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+            onclick="Gui.requestAdminGetTeachers()">
+            Add new item
+          </button>
+          <button class="btn btn-icon btn-3 btn-info" type="button" onclick="Gui.requestAdminGetSubjects()">Sync
+          </button>
+
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add new item</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="form" method="" action="">
+                    <div class="card-body">
+                      <div class="form-group bmd-form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                class="bi bi-card-text" viewBox="0 0 16 16">
+                                <path
+                                  d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                <path
+                                  d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
+                              </svg>
+
+                            </div>
+                          </div>
+                          <input id="nameForm" type="text" class="form-control" placeholder="Subject name..."
+                            style="color: black">
+                        </div>
+                      </div>
+
+                      <div class="form-group bmd-form-group">
+                        <div class="input-group">
+                          <div class="dropdown w-100">
+                            <button class="btn btn-secondary dropdown-toggle w-100" type="button"
+                              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Select user
+                            </button>
+                            <div id="usersDropdownMenu" class="dropdown-menu w-100"
+                              aria-labelledby="dropdownMenuButton">
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </form>
+                  <div class="alert alert-danger d-none" role="alert" id="errorAlert">
+                    Please fill all forms.
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="saveBtn" onclick="addNewSubject()">Add
+                    new subject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bridge Files -->
+  <script>
+    function loadPage() {
+      Gui.requestAdminGetSubjects();
+    }
+  </script>
+  <script src="subjects.js"></script>
+  <script src="javaBridge.fx.js"></script>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/extern/js/core/jquery.min.js"></script>
+  <script src="../assets/extern/js/core/popper.min.js"></script>
+  <script src="../assets/extern/js/core/bootstrap-material-design.min.js"></script>
+  <script src="https://unpkg.com/default-passive-events"></script>
+  <script src="../assets/extern/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/extern/js/material-dashboard.js?v=2.1.0"></script>
+  <script src="../assets/extern/js/core/sidebar.js"></script>
+</body>
+
+</html>

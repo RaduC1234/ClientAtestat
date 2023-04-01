@@ -20,7 +20,12 @@ import me.raducapatina.client.core.ClientInstance;
 import me.raducapatina.client.data.Article;
 import me.raducapatina.client.data.User;
 import me.raducapatina.client.gui.Gui;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +43,9 @@ import java.util.concurrent.Executors;
  */
 public class ClientNetworkService {
 
+    private static final Logger logger = LogManager.getLogger(ClientNetworkService.class);
+    private static final Level MESSAGE = Level.forName("MESSAGE", 450);
+
     private ExecutorService networkService = Executors.newSingleThreadExecutor();
     private EventLoopGroup group;
     private Map<String, RequestTemplate> requestsTemplates = new HashMap();
@@ -48,10 +56,18 @@ public class ClientNetworkService {
 
     public ClientNetworkService() {
         this
-                .addRequestTemplate("AUTHENTICATION", new AuthenticationTemplate())
+                .addRequestTemplate("AUTHENTICATION", new Authentication())
                 .addRequestTemplate("GET_SELF_USER", new GetSelfUser())
                 .addRequestTemplate("GET_ARTICLES", new GetMainPageArticles())
-                .addRequestTemplate("ADMIN_READ_USERS", new AdminReadUsers());
+                .addRequestTemplate("ADMIN_ADD_USERS", new AdminAddUsers())
+                .addRequestTemplate("ADMIN_GET_USERS", new AdminGetUsers())
+                .addRequestTemplate("ADMIN_DELETE_USERS", new AdminDeleteUsers())
+
+                .addRequestTemplate("ADMIN_ADD_SUBJECTS", new AdminAddSubjects())
+                .addRequestTemplate("ADMIN_GET_SUBJECTS", new AdminGetSubjects())
+
+                .addRequestTemplate("ADMIN_GET_TEACHERS", new AdminGetTeachers());
+
     }
 
     /**
@@ -75,8 +91,8 @@ public class ClientNetworkService {
                     .handler(new ChannelInitializer<SocketChannel>() {
 
                         @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline pipeline = ch.pipeline();
+                        public void initChannel(SocketChannel socketChannel) throws Exception {
+                            ChannelPipeline pipeline = socketChannel.pipeline();
 
                             pipeline.addLast(new DelimiterBasedFrameDecoder(2097152, Delimiters.lineDelimiter()));
                             pipeline.addLast(new StringDecoder());
@@ -100,7 +116,7 @@ public class ClientNetworkService {
 
                                 @Override
                                 protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-                                    System.out.println(msg);
+                                    logger.log(MESSAGE, msg);
                                     onMessage(ctx, msg);
                                 }
                             });
@@ -198,7 +214,7 @@ public class ClientNetworkService {
      */
     public void sendRequest(String name, Object[] params) throws IllegalArgumentException {
         if (requestsTemplates.get(name) == null)
-            throw new IllegalArgumentException("No request template found with passed name");
+            throw new IllegalArgumentException("No request template found with passed name \"" + name + "\"");
         Packet packet = new Packet(name, ctx);
         requestsTemplates.get(name).onNewRequest(packet, params);
         waitingOutboundPackets.add(packet);
@@ -214,7 +230,7 @@ public class ClientNetworkService {
     }
 
 
-    public class AuthenticationTemplate implements RequestTemplate {
+    public static class Authentication implements RequestTemplate {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -253,9 +269,6 @@ public class ClientNetworkService {
 
     public class GetSelfUser implements RequestTemplate {
 
-        public GetSelfUser() {
-
-        }
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -323,7 +336,7 @@ public class ClientNetworkService {
         }
     }
 
-    public static class AdminReadUsers implements RequestTemplate {
+    public static class AdminGetUsers implements RequestTemplate {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -337,7 +350,7 @@ public class ClientNetworkService {
         @Override
         public void onAnswer(Packet packet) {
             JsonNode users = packet.getRequestContent().get("users");
-            Gui.getInstance().callbackAdminReadUsers(users);
+            Gui.getInstance().callbackAdminGetUsers(users);
         }
 
         @Override
@@ -346,11 +359,130 @@ public class ClientNetworkService {
         }
     }
 
-/*    public static class AdminAddUser implements RequestTemplate {
+    public static class AdminAddUsers implements RequestTemplate {
 
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            packet.setRequestContent(new ObjectMapper().createObjectNode()
+                    .put("username", params[0].toString())
+                    .put("password", params[1].toString())
+                    .put("firstName", params[2].toString())
+                    .put("lastName", params[3].toString())
+                    .put("type", params[4].toString())
+            );
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            if(packet.getRequestContent().get("message").asText().equals("SUCCESS")) {
+                Gui.getInstance().callbackAdmGinAddUsers();
+            }
+        }
+
+        @Override
+        public void onIncomingRequest(Packet packet) {
+
+        }
     }
 
-    public static class AdminDeleteUser implements RequestTemplate {
+    public static class AdminDeleteUsers implements RequestTemplate {
 
-    }*/
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            packet.setRequestContent(new ObjectMapper().createObjectNode()
+                    .put("id", params[0].toString())
+            );
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            Gui.getInstance().callbackAdminDeleteUsers();
+        }
+
+        @Override
+        public void onIncomingRequest(Packet packet) {
+
+        }
+    }
+
+    public static class AdminAddSubjects implements RequestTemplate {
+
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            packet.setRequestContent(new ObjectMapper().createObjectNode()
+                    .put("name", params[0].toString())
+                    .put("teacher", params[1].toString())
+            );
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            Gui.getInstance().callbackAdminAddSubjects();
+        }
+
+        @Override
+        public void onIncomingRequest(Packet packet) {
+
+        }
+    }
+
+    public static class AdminGetSubjects implements RequestTemplate {
+
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            JsonNode subjects = packet.getRequestContent().get("subjects");
+            Gui.getInstance().callbackAdminGetSubjects(subjects);
+        }
+
+        @Override
+        public void onIncomingRequest(Packet packet) {
+
+        }
+    }
+
+    private class AdminGetTeachers implements RequestTemplate {
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            JsonNode users = packet.getRequestContent().get("teachers");
+            Gui.getInstance().callbackAdminGetTeachers(users);
+        }
+
+        @Override
+        public void onIncomingRequest(Packet packet) {
+
+        }
+    }
 }

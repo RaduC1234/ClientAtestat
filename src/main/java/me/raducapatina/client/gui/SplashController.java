@@ -21,7 +21,7 @@ public class SplashController implements Initializable {
         loading_WebView.getEngine().load(resource.toString());
         loading_WebView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (Worker.State.SUCCEEDED == newValue) {
-                loading_WebView.getEngine().executeScript("document.body.style.background = \"#fff\"");
+                loading_WebView.getEngine().executeScript("document.body.style.background = \"#1a2035\"");
             }
         });
     }

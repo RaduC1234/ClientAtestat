@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap");
 .root {
-  -fx-background-color: #fff;
+  -fx-background-color: #1a2035;
   -fx-min-height: 800px;
   -fx-min-widht: 1200px;
   -fx-pref-height: 800px;
@@ -14,7 +14,7 @@
 
 .input-field {
   -fx-background-color: -fx-text-box-border, -fx-background;
-  -fx-background-insets: 0, 0 0 1 0;
+  -fx-background-insets: 0, 0 0 2 0;
   -fx-background-radius: 0;
   -fx-max-width: 500px;
   -fx-max-height: 20px;
@@ -26,16 +26,16 @@
 
 .button {
   -fx-border-width: 2;
-  -fx-background-color: #7382ef;
-  -fx-background-radius: 25px;
+  -fx-background-color: #913f9e;
+  -fx-background-radius: 10px;
   -fx-text-fill: #ffffff;
   -fx-cursor: hand;
 }
 
 .button:hover {
-  -fx-background-color: #5a66bc;
+  -fx-background-color: #9b43a9;
 }
 
 .button:pressed {
-  -fx-background-color: #353c6f;
+  -fx-background-color: #9b43a9ab;
 }
