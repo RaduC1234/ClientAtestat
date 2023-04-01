@@ -9,6 +9,8 @@ public class User implements Serializable {
     private Long id;
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
     private UserType type;
     private Set<Subject> subjects = new LinkedHashSet<>();
     private Set<Grade> grades = new LinkedHashSet<>();
@@ -71,5 +73,23 @@ public class User implements Serializable {
 
     public Set<Grade> getGrades() {
         return grades;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public User setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public User setLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
     }
 }

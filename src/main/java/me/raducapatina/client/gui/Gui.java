@@ -23,12 +23,16 @@ import me.raducapatina.client.data.UserType;
 import netscape.javascript.JSObject;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Gui extends Application  {
+public class Gui extends Application {
 
     public final int BASE_SCREEN_WIDTH = 1600;
     public final int BASE_SCREEN_HEIGHT = 800;
@@ -38,7 +42,7 @@ public class Gui extends Application  {
     private LoginController loginController = new LoginController();
     private SceneController sceneController = new SceneController();
 
-    private WebModule mainModule = new WebModule("/html/main.html");
+    private WebModule mainModule = new WebModule("/html/main-page.html");
 
     private List<Article> mainPageArticles = new ArrayList<>();
 
@@ -47,9 +51,8 @@ public class Gui extends Application  {
         instance = this;
     }
 
-    public static synchronized Gui getInstance()
-    {
-        if(instance == null) {
+    public static synchronized Gui getInstance() {
+        if (instance == null) {
             new Thread(() -> Application.launch(Gui.class)).start();
         }
 
@@ -68,7 +71,8 @@ public class Gui extends Application  {
         init(stage);
 
         FXMLLoader splashScreen = new FXMLLoader(MainClient.class.getResource("/sources/splashScreen.fxml"));
-        FXMLLoader loginScreen = new FXMLLoader(MainClient.class.getResource("/sources/loginScreen.fxml")); loginScreen.setController(loginController);
+        FXMLLoader loginScreen = new FXMLLoader(MainClient.class.getResource("/sources/loginScreen.fxml"));
+        loginScreen.setController(loginController);
 
         sceneController = new SceneController(stage);
         sceneController.addScreen("splashScreen", new Scene(splashScreen.load(), BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT));
@@ -81,7 +85,7 @@ public class Gui extends Application  {
 
     // called when network service has done getting initial data from server
     public void loadGuiBridge() {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
 
             WebEngine webEngine = mainModule.getWebEngine();
 
@@ -93,7 +97,7 @@ public class Gui extends Application  {
 
                     webEngine.executeScript(
                             "const event = new Event('engineReady');" +
-                            "document.dispatchEvent(event);"
+                                    "document.dispatchEvent(event);"
                     );
 
                     loadPage();
@@ -130,22 +134,68 @@ public class Gui extends Application  {
         mainModule.webEngine.executeScript("loadPage();");
     }
 
-    public void requestAdminReadUsers() {
-        System.out.println("requestAdminReadUsers ");
-        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_READ_USERS", null);
+    // ADMIN_READ_USERS
+    public void requestAdminGetUsers() {
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_GET_USERS", null);
     }
 
-    public void callbackAdminReadUsers(JsonNode usersJson) {
+    public void callbackAdminGetUsers(JsonNode usersJson) {
 
-        for(JsonNode node : usersJson) {
-            ((ObjectNode)node).remove("subjects");
-            ((ObjectNode)node).remove("grades");
+        for (JsonNode node : usersJson) {
+            ((ObjectNode) node).remove("subjects");
+            ((ObjectNode) node).remove("grades");
         }
 
         runOnGui(() -> {
-            mainModule.getWebEngine().executeScript("refreshTable(\"admin-users-table\", " +  usersJson.toPrettyString() + ")");
+            mainModule.getWebEngine().executeScript("refreshTable(\"admin-users-table\", " + usersJson.toPrettyString() + ")");
         });
     }
+
+    // ADMIN_DELETE_USERS
+    public void requestAdminDeleteUsers(int id) {
+        System.out.println("requestAdminDeleteUsers " + id);
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_DELETE_USERS", new Object[]{id});
+    }
+
+    public void callbackAdminDeleteUsers() {
+        requestAdminGetUsers();
+    }
+
+    // ADMIN_ADD_USERS
+    public void requestAdminAddUsers(String username, String password, String firstName, String lastName, String type) {
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_ADD_USERS", new Object[]{username, password, firstName, lastName, type});
+    }
+
+    public void callbackAdmGinAddUsers() {
+        runOnGui(() -> {
+            mainModule.getWebEngine().executeScript("clearAndCloseModal()");
+        });
+        requestAdminGetUsers();
+    }
+
+    // ADMIN_ADD_SUBJECTS
+    public void requestAdminAddSubjects(String name, int teacherId) {
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_ADD_SUBJECTS", new Object[]{name, teacherId});
+    }
+
+    public void callbackAdminAddSubjects() {
+        requestAdminGetSubjects();
+    }
+
+    // ADMIN_GET_SUBJECTS
+    public void requestAdminGetSubjects() {
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_GET_SUBJECTS", null);
+    }
+
+    public void callbackAdminGetSubjects(JsonNode subjectsJson) {
+        System.out.println("Dsadasdasd");
+        runOnGui(() -> {
+            mainModule.getWebEngine().executeScript("refreshCollapse(\"admin-subjects\", " + subjectsJson.toPrettyString() + ")");
+        });
+    }
+    // ADMIN_DELETE_SUBJECTS
+    // ADMIN_ADD_USER_SUBJECTS
+    // ADMIN_REMOVE_USER_SUBJECTS
 
     private void generateTableHeaders(String userJson) {
 
@@ -160,7 +210,7 @@ public class Gui extends Application  {
     }
 
     private void init(Stage stage) {
-        stage.setTitle("Education Software Client. Alpha 2.0");
+        stage.setTitle("Education Software Client. Alpha 3.0");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainClient.class.getResourceAsStream("/assets/tray_logo.png"))));
         stage.setOnCloseRequest(event -> ClientInstance.getInstance().stopApplication());
 
@@ -202,8 +252,7 @@ public class Gui extends Application  {
         private final WebEngine webEngine = browser.getEngine();
 
         public WebModule(String source) {
-            //apply the styles
-            getStyleClass().add("browser");
+
             // load the web page
             URL url = MainClient.class.getResource(source);
             webEngine.load(url.toString());
