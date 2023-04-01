@@ -23,7 +23,11 @@ import me.raducapatina.client.data.UserType;
 import netscape.javascript.JSObject;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -184,7 +188,10 @@ public class Gui extends Application {
     }
 
     public void callbackAdminGetSubjects(JsonNode subjectsJson) {
-        // TODO: implement
+        System.out.println("Dsadasdasd");
+        runOnGui(() -> {
+            mainModule.getWebEngine().executeScript("refreshCollapse(\"admin-subjects\", " + subjectsJson.toPrettyString() + ")");
+        });
     }
     // ADMIN_DELETE_SUBJECTS
     // ADMIN_ADD_USER_SUBJECTS
@@ -203,7 +210,7 @@ public class Gui extends Application {
     }
 
     private void init(Stage stage) {
-        stage.setTitle("Education Software Client. Alpha 2.0");
+        stage.setTitle("Education Software Client. Alpha 3.0");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainClient.class.getResourceAsStream("/assets/tray_logo.png"))));
         stage.setOnCloseRequest(event -> ClientInstance.getInstance().stopApplication());
 
@@ -245,8 +252,7 @@ public class Gui extends Application {
         private final WebEngine webEngine = browser.getEngine();
 
         public WebModule(String source) {
-            //apply the styles
-            getStyleClass().add("browser");
+
             // load the web page
             URL url = MainClient.class.getResource(source);
             webEngine.load(url.toString());

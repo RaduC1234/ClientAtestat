@@ -447,7 +447,7 @@ public class ClientNetworkService {
 
         @Override
         public void onAnswer(Packet packet) {
-            JsonNode subjects = packet.getRequestContent().get("subjects");
+            JsonNode subjects = packet.getRequestContent();
             Gui.getInstance().callbackAdminGetSubjects(subjects);
         }
 
