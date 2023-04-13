@@ -170,7 +170,7 @@ public class Gui extends Application {
         ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_ADD_USERS", new Object[]{username, password, firstName, lastName, type});
     }
 
-    public void callbackAdmGinAddUsers() {
+    public void callbackAdminAddUsers() {
         runOnGui(() -> {
             mainModule.getWebEngine().executeScript("clearAndCloseModal()");
         });
@@ -194,11 +194,18 @@ public class Gui extends Application {
     public void callbackAdminGetSubjects(JsonNode subjectsJson) {
 
         runOnGui(() -> {
-            logger.info(subjectsJson.toPrettyString());
             mainModule.getWebEngine().executeScript("refreshCollapse(\"admin-subjects\", " + subjectsJson.toPrettyString() + ")");
         });
     }
     // ADMIN_DELETE_SUBJECTS
+    public void requestAdminDeleteSubjects(long id) {
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_DELETE_SUBJECTS", new Object[]{id});
+    }
+
+    public void callbackAdminDeleteSubjects() {
+        requestAdminGetSubjects();
+    }
+
     // ADMIN_ADD_USER_SUBJECTS
     // ADMIN_REMOVE_USER_SUBJECTS
 
@@ -214,10 +221,6 @@ public class Gui extends Application {
             mainModule.getWebEngine().executeScript("dropDown(" + teachersNode.toPrettyString() + ");");
 
         });
-    }
-
-    public void logOut() {
-        System.out.println("logOut");
     }
 
     private void init(Stage stage) {

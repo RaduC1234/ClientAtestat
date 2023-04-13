@@ -54,14 +54,14 @@ class SubjectsPage {
                         </div>
                       </div>
                       <div class="col-md-3 d-flex justify-content-end">
-                        <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
+                        <button class="btn btn-danger btn-sm" onclick = "Gui.requestAdminDeleteSubjects(${subject.id})"><i class="bi bi-trash"></i> Delete</button>
                       </div>
                     </div>
     
                     <div class="row mt-5">
                       <div class="col-md-5 d-flex align-items-center">
                         <h5 class="mr-3 mb-0"><i class="bi bi-mortarboard-fill"></i> Students:</h5>
-                        <div class="student-list" id="student-list-${subject.id}">
+                        <div class="student-list btn-group" id="student-list-${subject.id}">
                           <!-- students will be added here dynamically -->
                         </div>
                       </div>
@@ -74,22 +74,36 @@ class SubjectsPage {
       // Append the new collapse HTML to the parent element
       parentEl.insertAdjacentHTML("beforeend", collapseHTML);
 
-      // // Get the student list element
-      // const studentList = document.querySelector(`#student-list-${subject.id}`);
+      // Get the student list element
+      const studentList = document.querySelector(`#student-list-${subject.id}`);
 
-      // // Loop through each student in the subject
-      // subject.users.forEach((user) => {
-      //     // Create HTML for the student
-      //     const studentHTML = `
-      // <div class="student">
-      // <div class="name">${user.firstName} ${user.lastName}</div>
-      // <div class="username">${user.username}</div>
-      // </div>
-      // `;
 
-      //     // Append the HTML for the student to the student list
-      //     studentList.insertAdjacentHTML("beforeend", studentHTML);
-      // });
+      for (let j = 0; j < subject.users.length; j++) {
+        const user = subject.users[j];
+        if (user.type === "STUDENT") {
+          // Create HTML for the student
+          const studentHTML = `
+        <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="${user.id} group">
+          <button type="button" class="btn btn-warning">${user.username}</button>
+          <button type="button" class="btn btn-warning" onclick="Gui.AdminRemoveUserFromSubject(${subject.id}, ${user.id})">x</button>
+        </div>
+    `;
+
+          // Append the HTML for the student to the student list
+          studentList.insertAdjacentHTML("beforeend", studentHTML);
+        }
+      }
+
+
+      // Add a button to add a new student to the subject
+      const addStudentButton = `
+      <div class ="btn-group mr-2 btn-group-sm role="group">
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModalLong">+</button>
+      </div>
+`;
+
+      // Append the add student button to the student list
+      studentList.insertAdjacentHTML("beforeend", addStudentButton);
     }
   }
 
@@ -154,3 +168,4 @@ function addNewSubject() {
     Gui.requestAdminAddSubjects(subjectName.value, teacherId);
   }
 }
+
