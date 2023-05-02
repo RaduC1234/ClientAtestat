@@ -98,7 +98,7 @@ class SubjectsPage {
       // Add a button to add a new student to the subject
       const addStudentButton = `
       <div class ="btn-group mr-2 btn-group-sm role="group">
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModalLong" onClick="Gui.requestAdminGetStudents(${subject.id})"Gui.>+</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModalLong" onClick="onModal(${subject.id})">+</button>
       </div>
 `;
 
@@ -190,6 +190,7 @@ class StudentsTable {
         </thead>
         <tbody>
       `;
+    selectedLenght = this.jsonData.length;
     for (let i = 0; i < this.jsonData.length; i++) {
       const student = this.jsonData[i];
       tableHTML += `
@@ -234,14 +235,20 @@ function onSave() {
   Console.info("hahahah");
   console.info("hahahah");
 
-  const table = document.getElementById("studentsTable");
-
-  for (let i = 0; i < table.rows.length; i++) {
-    const row = table.rows[i];
-    const checkbox = row.querySelector("input[type='checkbox']");
+  for (let i = 0; i < selectedLenght; i++) {
+    const checkbox = document.getElementById(`flexCheck${i}`);
     if (checkbox.checked) {
-      Gui.requestAdminAddStudentToSubject(3, 4);
+      const studentId = this.jsonData[i].id;
+      Gui.requestAdminAddStudentToSubject(studentId, selectedId);
     }
   }
+}
+
+let selectedId = 0;
+let selectedLenght = 0;
+
+function onModal(subjectId) {
+  selectedId = subjectId;
+  Gui.requestAdminGetStudents(subjectId);
 }
 

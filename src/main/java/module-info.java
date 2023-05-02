@@ -7,6 +7,7 @@ module me.raducapatina.client {
     requires com.fasterxml.jackson.databind;
     requires jdk.jsobject;
     requires org.apache.logging.log4j;
+    requires java.desktop;
 
 
     opens me.raducapatina.client to javafx.fxml;

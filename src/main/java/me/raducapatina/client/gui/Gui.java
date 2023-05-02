@@ -1,6 +1,8 @@
 package me.raducapatina.client.gui;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -19,16 +21,21 @@ import javafx.stage.Stage;
 import me.raducapatina.client.MainClient;
 import me.raducapatina.client.core.ClientInstance;
 import me.raducapatina.client.data.Article;
+import me.raducapatina.client.data.User;
 import me.raducapatina.client.data.UserType;
 import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import java.awt.Desktop;
+import java.net.URI;
 
 public class Gui extends Application {
 
@@ -237,6 +244,31 @@ public class Gui extends Application {
     // ADMIN_ADD_STUDENT_TO_SUBJECT
     public void requestAdminAddStudentToSubject(long studentID, long subjectID) {
         logger.info(studentID + " " + subjectID);
+    }
+
+    public void requestStudentLoadGrades() {
+
+        User user = ClientInstance.getInstance().getUser();
+
+        try {
+            String json = new JsonMapper().writeValueAsString(user);
+            System.out.println(json);
+            runOnGui(() -> {
+                mainModule.getWebEngine().executeScript("refreshStudentTable(" + json + ")");
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void requestOpenExternalLink(String string) {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI(string));
+            } catch (IOException | URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private void init(Stage stage) {
