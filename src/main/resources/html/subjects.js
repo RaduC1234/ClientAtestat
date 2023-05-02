@@ -98,7 +98,7 @@ class SubjectsPage {
       // Add a button to add a new student to the subject
       const addStudentButton = `
       <div class ="btn-group mr-2 btn-group-sm role="group">
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModalLong">+</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModalLong" onClick="Gui.requestAdminGetStudents(${subject.id})"Gui.>+</button>
       </div>
 `;
 
@@ -166,6 +166,82 @@ function addNewSubject() {
 
   if (teacherId != -1 || subjectName.value != '') {
     Gui.requestAdminAddSubjects(subjectName.value, teacherId);
+  }
+}
+
+class StudentsTable {
+  constructor(elementId, jsonData) {
+    this.elementId = elementId;
+    this.jsonData = jsonData;
+    this.createTable();
+  }
+
+  createTable() {
+    let tableHTML = `
+      <table class="table" id= "studentsTable">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+          </tr>
+        </thead>
+        <tbody>
+      `;
+    for (let i = 0; i < this.jsonData.length; i++) {
+      const student = this.jsonData[i];
+      tableHTML += `
+        <tr>
+          <td class="d-flex justify-content-center">
+            <input class="form-check-input justify-content-center" type="checkbox" value="" id="flexCheck${i}">
+          </td>
+          <td>${student.id}</td>
+          <td>${student.username}</td>
+          <td>${student.firstName}</td>
+          <td>${student.lastName}</td>
+        </tr>
+      `;
+    }
+    tableHTML += `
+        </tbody>
+      </table>
+    `;
+    document.getElementById(this.elementId).innerHTML = tableHTML;
+  }
+
+
+  deleteTable() {
+    document.getElementById(this.elementId).innerHTML = "";
+  }
+}
+
+function getAddModalInstance(elementId) {
+  return new StudentsTable(elementId);
+}
+
+function refreshAddModal(modalID, newData) {
+  const AddElement = document.getElementById(modalID);
+  if (AddElement) {
+    AddElement.innerHTML = '';
+  }
+  const collapse = new StudentsTable(modalID, newData);
+}
+
+function onSave() {
+
+  Console.info("hahahah");
+  console.info("hahahah");
+
+  const table = document.getElementById("studentsTable");
+
+  for (let i = 0; i < table.rows.length; i++) {
+    const row = table.rows[i];
+    const checkbox = row.querySelector("input[type='checkbox']");
+    if (checkbox.checked) {
+      Gui.requestAdminAddStudentToSubject(3, 4);
+    }
   }
 }
 

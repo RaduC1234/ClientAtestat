@@ -1,0 +1,42 @@
+refreshCollapse('admin-subjects', [
+  {
+    "id": 8,
+    "name": "Istorie",
+    "users": [
+      {
+        "id": 6,
+        "username": "test1",
+        "password": "1234",
+        "firstName": "1234",
+        "lastName": "1234",
+        "type": "TEACHER",
+        "subjects": [],
+        "grades": []
+      },
+      {
+              "id": 6,
+              "username": "test1",
+              "password": "1234",
+              "firstName": "1234",
+              "lastName": "1234",
+              "type": "STUDENT",
+              "subjects": [],
+              "grades": []
+            },
+           {
+                   "id": 6,
+                   "username": "test1",
+                   "password": "1234",
+                   "firstName": "1234",
+                   "lastName": "1234",
+                   "type": "STUDENT",
+                   "subjects": [],
+                   "grades": []
+                 },
+    ],
+    "grades": []
+  }
+]);
+
+
+refreshAddModal('table0','[{"id":1,"username":"radu1234","password":"1234","firstName":"RADU","lastName":"C","type":"ADMIN","subjects":[],"grades":[]},{"id":6,"username":"test1","password":"1234","firstName":"1234","lastName":"1234","type":"TEACHER","subjects":[],"grades":[]},{"id":9,"username":"cipi1234","password":"1234","firstName":"Cirpian","lastName":"Visan","type":"ADMIN","subjects":[],"grades":[]},{"id":100,"username":"andrei.petru","password":"1234","firstName":"Andrei","lastName":"Petru","type":"STUDENT","subjects":[],"grades":[]},{"id":101,"username":"maria.b","password":"password123","firstName":"Maria","lastName":"Baker","type":"STUDENT","subjects":[],"grades":[]},{"id":109,"username":"david.m","password":"qwerty","firstName":"David","lastName":"Martin","type":"STUDENT","subjects":[],"grades":[]},{"id":117,"username":"uma.u","password":"1234","firstName":"Uma","lastName":"Underwood","type":"STUDENT","subjects":[],"grades":[]}]');

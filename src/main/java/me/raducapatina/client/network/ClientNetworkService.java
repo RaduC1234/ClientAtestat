@@ -14,8 +14,8 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import javafx.application.Platform;
-import me.raducapatina.client.ResourceClientMessages;
-import me.raducapatina.client.ResourceClientProperties;
+import me.raducapatina.client.util.ResourceClientMessages;
+import me.raducapatina.client.util.ResourceClientProperties;
 import me.raducapatina.client.core.ClientInstance;
 import me.raducapatina.client.data.Article;
 import me.raducapatina.client.data.User;
@@ -46,7 +46,7 @@ public class ClientNetworkService {
 
     private ExecutorService networkService = Executors.newSingleThreadExecutor();
     private EventLoopGroup group;
-    private Map<String, RequestTemplate> requestsTemplates = new HashMap();
+    private Map<String, IRequest> requestsTemplates = new HashMap<>();
     private List<Packet> waitingOutboundPackets = new ArrayList<>();
 
     // client only variables
@@ -57,6 +57,8 @@ public class ClientNetworkService {
                 .addRequestTemplate("AUTHENTICATION", new Authentication())
                 .addRequestTemplate("GET_SELF_USER", new GetSelfUser())
                 .addRequestTemplate("GET_ARTICLES", new GetMainPageArticles())
+
+                // ADMIN
                 .addRequestTemplate("ADMIN_ADD_USERS", new AdminAddUsers())
                 .addRequestTemplate("ADMIN_GET_USERS", new AdminGetUsers())
                 .addRequestTemplate("ADMIN_DELETE_USERS", new AdminDeleteUsers())
@@ -65,6 +67,7 @@ public class ClientNetworkService {
                 .addRequestTemplate("ADMIN_GET_SUBJECTS", new AdminGetSubjects())
                 .addRequestTemplate("ADMIN_DELETE_SUBJECTS", new AdminDeleteSubjects())
 
+                .addRequestTemplate("ADMIN_GET_STUDENTS", new AdminGetStudents())
                 .addRequestTemplate("ADMIN_GET_TEACHERS", new AdminGetTeachers());
 
     }
@@ -73,9 +76,9 @@ public class ClientNetworkService {
      * Adds the template to the handler.
      *
      * @param name     name of the request
-     * @param template instance of a class that implements {@link RequestTemplate}
+     * @param template instance of a class that implements {@link IRequest}
      */
-    public ClientNetworkService addRequestTemplate(String name, RequestTemplate template) {
+    public ClientNetworkService addRequestTemplate(String name, IRequest template) {
         requestsTemplates.put(name, template);
         return this;
     }
@@ -170,20 +173,20 @@ public class ClientNetworkService {
                     }
                 }
                 // throw error: no request found
-                assert false : "No request found with id provided.";
+                logger.error("No request found with id provided.");
             }
 
             // packet is a new request at this point
             if (requestsTemplates.get(receivedPacket.getRequestName()) == null) {
                 // throw error: no request with this name found
-                assert false : "Invalid request name: " + receivedPacket.getRequestName();
+                logger.error("Invalid request name: " + receivedPacket.getRequestName());
                 return;
             }
 
             requestsTemplates.get(receivedPacket.getRequestName()).onIncomingRequest(receivedPacket);
 
         } catch (JsonProcessingException e) {
-            assert false : e.getMessage();
+            logger.error(e.getMessage());
         }
     }
 
@@ -219,7 +222,7 @@ public class ClientNetworkService {
         waitingOutboundPackets.add(packet);
     }
 
-    public interface RequestTemplate {
+    public interface IRequest {
 
         /**
          * Called when {@link #sendRequest(String, ChannelHandlerContext, Object[])} is called.
@@ -232,7 +235,7 @@ public class ClientNetworkService {
         default void onIncomingRequest(Packet packet) {}
     }
 
-    public static class Authentication implements RequestTemplate {
+    public static class Authentication implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -264,7 +267,7 @@ public class ClientNetworkService {
         }
     }
 
-    public class GetSelfUser implements RequestTemplate {
+    public static class GetSelfUser implements IRequest {
 
 
         @Override
@@ -297,7 +300,7 @@ public class ClientNetworkService {
         }
     }
 
-    public static class GetMainPageArticles implements RequestTemplate {
+    public static class GetMainPageArticles implements IRequest {
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
             try {
@@ -328,7 +331,7 @@ public class ClientNetworkService {
         }
     }
 
-    public static class AdminGetUsers implements RequestTemplate {
+    public static class AdminGetUsers implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -346,7 +349,7 @@ public class ClientNetworkService {
         }
     }
 
-    public static class AdminAddUsers implements RequestTemplate {
+    public static class AdminAddUsers implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -372,7 +375,7 @@ public class ClientNetworkService {
         }
     }
 
-    public static class AdminDeleteUsers implements RequestTemplate {
+    public static class AdminDeleteUsers implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -392,7 +395,7 @@ public class ClientNetworkService {
         }
     }
 
-    public static class AdminAddSubjects implements RequestTemplate {
+    public static class AdminAddSubjects implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -413,7 +416,7 @@ public class ClientNetworkService {
         }
     }
 
-    public static class AdminGetSubjects implements RequestTemplate {
+    public static class AdminGetSubjects implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -431,7 +434,7 @@ public class ClientNetworkService {
         }
     }
 
-    private static class AdminDeleteSubjects implements RequestTemplate {
+    private static class AdminDeleteSubjects implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
@@ -451,7 +454,7 @@ public class ClientNetworkService {
         }
     }
 
-    private static class AdminGetTeachers implements RequestTemplate {
+    private static class AdminGetTeachers implements IRequest {
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
             try {
@@ -468,10 +471,13 @@ public class ClientNetworkService {
         }
     }
 
-    public static class AdminGetStudents implements RequestTemplate {
+    public static class AdminGetStudents implements IRequest {
 
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
+            packet.setRequestContent(new ObjectMapper().createObjectNode()
+                    .put("subject", params[0].toString())
+            );
             try {
                 packet.sendThis(false);
             } catch (Exception e) {
@@ -482,7 +488,7 @@ public class ClientNetworkService {
         @Override
         public void onAnswer(Packet packet) {
             JsonNode users = packet.getRequestContent().get("students");
-            //Gui.getInstance().callbackAdminGetStudents(users);
+            Gui.getInstance().callbackAdminGetStudents(users);
         }
 
     }

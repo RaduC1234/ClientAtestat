@@ -20,5 +20,7 @@ module me.raducapatina.client {
     exports me.raducapatina.client.data;
     exports me.raducapatina.client.network;
     opens me.raducapatina.client.network to javafx.fxml;
+    exports me.raducapatina.client.util;
+    opens me.raducapatina.client.util to javafx.fxml;
 
 }

@@ -197,6 +197,7 @@ public class Gui extends Application {
             mainModule.getWebEngine().executeScript("refreshCollapse(\"admin-subjects\", " + subjectsJson.toPrettyString() + ")");
         });
     }
+
     // ADMIN_DELETE_SUBJECTS
     public void requestAdminDeleteSubjects(long id) {
         ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_DELETE_SUBJECTS", new Object[]{id});
@@ -206,9 +207,19 @@ public class Gui extends Application {
         requestAdminGetSubjects();
     }
 
-    // ADMIN_ADD_USER_SUBJECTS
-    // ADMIN_REMOVE_USER_SUBJECTS
 
+    // ADMIN_GET_STUDENTS
+    public void requestAdminGetStudents(long id) {
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_GET_STUDENTS", new Object[]{id});
+    }
+
+    public void callbackAdminGetStudents(JsonNode node) {
+
+        runOnGui(() -> {
+            mainModule.getWebEngine().executeScript("refreshAddModal(\"table0\"," + node.toPrettyString() + ")");
+
+        });
+    }
 
     // ADMIN_GET_TEACHERS
     public void requestAdminGetTeachers() {
@@ -221,6 +232,11 @@ public class Gui extends Application {
             mainModule.getWebEngine().executeScript("dropDown(" + teachersNode.toPrettyString() + ");");
 
         });
+    }
+
+    // ADMIN_ADD_STUDENT_TO_SUBJECT
+    public void requestAdminAddStudentToSubject(long studentID, long subjectID) {
+        logger.info(studentID + " " + subjectID);
     }
 
     private void init(Stage stage) {
