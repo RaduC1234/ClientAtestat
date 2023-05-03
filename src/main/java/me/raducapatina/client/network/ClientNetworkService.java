@@ -68,7 +68,9 @@ public class ClientNetworkService {
                 .addRequestTemplate("ADMIN_DELETE_SUBJECTS", new AdminDeleteSubjects())
 
                 .addRequestTemplate("ADMIN_GET_STUDENTS", new AdminGetStudents())
-                .addRequestTemplate("ADMIN_GET_TEACHERS", new AdminGetTeachers());
+                .addRequestTemplate("ADMIN_GET_TEACHERS", new AdminGetTeachers())
+
+                .addRequestTemplate("ADMIN_ADD_STUDENT_TO_SUBJECT", new AdminAddUserToSubject());
 
     }
 
@@ -491,5 +493,27 @@ public class ClientNetworkService {
             Gui.getInstance().callbackAdminGetStudents(users);
         }
 
+    }
+
+    public static class AdminAddUserToSubject implements IRequest {
+
+
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            packet.setRequestContent(new ObjectMapper().createObjectNode()
+                    .put("subjectId", params[1].toString())
+                    .put("userId", params[0].toString())
+            );
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            Gui.getInstance().requestAdminGetSubjects();
+        }
     }
 }

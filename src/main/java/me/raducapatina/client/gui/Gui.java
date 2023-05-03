@@ -243,7 +243,8 @@ public class Gui extends Application {
 
     // ADMIN_ADD_STUDENT_TO_SUBJECT
     public void requestAdminAddStudentToSubject(long studentID, long subjectID) {
-        logger.info(studentID + " " + subjectID);
+        logger.info("prost");
+        ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_ADD_STUDENT_TO_SUBJECT", new Object[]{studentID, subjectID});
     }
 
     public void requestStudentLoadGrades() {

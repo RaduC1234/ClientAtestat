@@ -196,7 +196,7 @@ class StudentsTable {
       tableHTML += `
         <tr>
           <td class="d-flex justify-content-center">
-            <input class="form-check-input justify-content-center" type="checkbox" value="" id="flexCheck${i}">
+          <button class="btn btn-primary btn-round" onclick="addUser(${student.id})" id ="bon${i}">Add user</button>
           </td>
           <td>${student.id}</td>
           <td>${student.username}</td>
@@ -230,22 +230,12 @@ function refreshAddModal(modalID, newData) {
   const collapse = new StudentsTable(modalID, newData);
 }
 
-function onSave() {
-
-  Console.info("hahahah");
-  console.info("hahahah");
-
-  for (let i = 0; i < selectedLenght; i++) {
-    const checkbox = document.getElementById(`flexCheck${i}`);
-    if (checkbox.checked) {
-      const studentId = this.jsonData[i].id;
-      Gui.requestAdminAddStudentToSubject(studentId, selectedId);
-    }
-  }
-}
-
 let selectedId = 0;
 let selectedLenght = 0;
+
+function addUser(studentId) {
+  Gui.requestAdminAddStudentToSubject(studentId, selectedId)
+}
 
 function onModal(subjectId) {
   selectedId = subjectId;
