@@ -39,7 +39,7 @@ import java.net.URI;
 
 public class Gui extends Application {
 
-    private static final Logger logger = LogManager.getLogger(Gui.class);
+    //private static final Logger logger = LogManager.getLogger(Gui.class);
 
     public final int BASE_SCREEN_WIDTH = 1600;
     public final int BASE_SCREEN_HEIGHT = 800;
@@ -111,7 +111,7 @@ public class Gui extends Application {
                     loadPage();
                 }
             });
-            logger.info("JavaFx bridge fully loaded.");
+            //logger.info("JavaFx bridge fully loaded.");
         });
     }
 
@@ -123,20 +123,23 @@ public class Gui extends Application {
         switch (userType) {
 
             case STUDENT -> {
-                //this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
-                //this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
             }
             case TEACHER -> {
-                //this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
-                //this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
             }
             case ADMIN -> {
-                //this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
-                //this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
             }
             case DEBUG, UNKNOWN -> {
             }
         }
+
+        this.mainModule.webEngine.executeScript("document.getElementById(\"_MANAGEMENT_\").style.display = \"none\"");
+        this.mainModule.webEngine.executeScript("document.getElementById(\"_REP_CARD_\").style.display = \"none\"");
 
         // Other pages
         mainModule.webEngine.executeScript("loadPage();");
@@ -146,7 +149,7 @@ public class Gui extends Application {
     public void requestAdminGetUsers() {
         ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_GET_USERS", null);
 
-        logger.debug("Calling 'ADMIN_GET_USERS'");
+        //logger.debug("Calling 'ADMIN_GET_USERS'");
     }
 
     public void callbackAdminGetUsers(JsonNode usersJson) {
@@ -165,7 +168,7 @@ public class Gui extends Application {
     public void requestAdminDeleteUsers(int id) {
         ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_DELETE_USERS", new Object[]{id});
 
-        logger.debug("Calling 'ADMIN_DELETE_USERS'");
+        //logger.debug("Calling 'ADMIN_DELETE_USERS'");
     }
 
     public void callbackAdminDeleteUsers() {
@@ -243,8 +246,16 @@ public class Gui extends Application {
 
     // ADMIN_ADD_STUDENT_TO_SUBJECT
     public void requestAdminAddStudentToSubject(long studentID, long subjectID) {
-        logger.info("prost");
+        //logger.info("prost");
         ClientInstance.getInstance().getNetworkService().sendRequest("ADMIN_ADD_STUDENT_TO_SUBJECT", new Object[]{studentID, subjectID});
+    }
+
+    public void requestTeacherMainPage() {
+        ClientInstance.getInstance().getNetworkService().sendRequest("TEACHER_MAIN_PAGE", null);
+    }
+
+    public void callbackTeacherMainPage(JsonNode subjectNode) {
+
     }
 
     public void requestStudentLoadGrades() {

@@ -41,8 +41,8 @@ import java.util.concurrent.Executors;
  */
 public class ClientNetworkService {
 
-    private static final Logger logger = LogManager.getLogger(ClientNetworkService.class);
-    private static final Level MESSAGE = Level.forName("MESSAGE", 450);
+    //private static final Logger logger = LogManager.getLogger(ClientNetworkService.class);
+    //private static final Level MESSAGE = Level.forName("MESSAGE", 450);
 
     private ExecutorService networkService = Executors.newSingleThreadExecutor();
     private EventLoopGroup group;
@@ -120,7 +120,7 @@ public class ClientNetworkService {
 
                                 @Override
                                 protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-                                    logger.log(MESSAGE, msg);
+                                    //logger.log(MESSAGE, msg);
                                     onMessage(ctx, msg);
                                 }
                             });
@@ -175,20 +175,20 @@ public class ClientNetworkService {
                     }
                 }
                 // throw error: no request found
-                logger.error("No request found with id provided.");
+                //logger.error("No request found with id provided.");
             }
 
             // packet is a new request at this point
             if (requestsTemplates.get(receivedPacket.getRequestName()) == null) {
                 // throw error: no request with this name found
-                logger.error("Invalid request name: " + receivedPacket.getRequestName());
+                //logger.error("Invalid request name: " + receivedPacket.getRequestName());
                 return;
             }
 
             requestsTemplates.get(receivedPacket.getRequestName()).onIncomingRequest(receivedPacket);
 
         } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
+            //logger.error(e.getMessage());
         }
     }
 
@@ -497,7 +497,6 @@ public class ClientNetworkService {
 
     public static class AdminAddUserToSubject implements IRequest {
 
-
         @Override
         public void onNewRequest(Packet packet, Object[] params) {
             packet.setRequestContent(new ObjectMapper().createObjectNode()
@@ -514,6 +513,23 @@ public class ClientNetworkService {
         @Override
         public void onAnswer(Packet packet) {
             Gui.getInstance().requestAdminGetSubjects();
+        }
+    }
+
+    public static class TeacherMainPage implements IRequest {
+
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            Gui.getInstance().callbackTeacherMainPage(packet.getRequestContent().get("subjects"));
         }
     }
 }
