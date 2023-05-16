@@ -14,12 +14,12 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import javafx.application.Platform;
-import me.raducapatina.client.util.ResourceClientMessages;
-import me.raducapatina.client.util.ResourceClientProperties;
 import me.raducapatina.client.core.ClientInstance;
 import me.raducapatina.client.data.Article;
 import me.raducapatina.client.data.User;
 import me.raducapatina.client.gui.Gui;
+import me.raducapatina.client.util.ResourceClientMessages;
+import me.raducapatina.client.util.ResourceClientProperties;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,8 +41,8 @@ import java.util.concurrent.Executors;
  */
 public class ClientNetworkService {
 
-    //private static final Logger logger = LogManager.getLogger(ClientNetworkService.class);
-    //private static final Level MESSAGE = Level.forName("MESSAGE", 450);
+    private static final Logger logger = LogManager.getLogger(ClientNetworkService.class);
+    private static final Level MESSAGE = Level.forName("MESSAGE", 450);
 
     private ExecutorService networkService = Executors.newSingleThreadExecutor();
     private EventLoopGroup group;
@@ -70,7 +70,11 @@ public class ClientNetworkService {
                 .addRequestTemplate("ADMIN_GET_STUDENTS", new AdminGetStudents())
                 .addRequestTemplate("ADMIN_GET_TEACHERS", new AdminGetTeachers())
 
-                .addRequestTemplate("ADMIN_ADD_STUDENT_TO_SUBJECT", new AdminAddUserToSubject());
+                .addRequestTemplate("ADMIN_ADD_STUDENT_TO_SUBJECT", new AdminAddUserToSubject())
+
+                // TEACHER
+                .addRequestTemplate("TEACHER_MAIN_PAGE", new TeacherMainPage())
+                .addRequestTemplate("TEACHER_LOAD_SUBJECT", new TeacherLoadSubject());
 
     }
 
@@ -120,7 +124,7 @@ public class ClientNetworkService {
 
                                 @Override
                                 protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-                                    //logger.log(MESSAGE, msg);
+                                    logger.log(MESSAGE, msg);
                                     onMessage(ctx, msg);
                                 }
                             });
@@ -228,13 +232,13 @@ public class ClientNetworkService {
 
         /**
          * Called when {@link #sendRequest(String, ChannelHandlerContext, Object[])} is called.
-         *
          */
-       void onNewRequest(Packet packet, Object[] params);
+        void onNewRequest(Packet packet, Object[] params);
 
         void onAnswer(Packet packet);
 
-        default void onIncomingRequest(Packet packet) {}
+        default void onIncomingRequest(Packet packet) {
+        }
     }
 
     public static class Authentication implements IRequest {
@@ -371,7 +375,7 @@ public class ClientNetworkService {
 
         @Override
         public void onAnswer(Packet packet) {
-            if(packet.getRequestContent().get("message").asText().equals("SUCCESS")) {
+            if (packet.getRequestContent().get("message").asText().equals("SUCCESS")) {
                 Gui.getInstance().callbackAdminAddUsers();
             }
         }
@@ -532,4 +536,25 @@ public class ClientNetworkService {
             Gui.getInstance().callbackTeacherMainPage(packet.getRequestContent().get("subjects"));
         }
     }
+
+    public static class TeacherLoadSubject implements IRequest {
+
+        @Override
+        public void onNewRequest(Packet packet, Object[] params) {
+            packet.setRequestContent(new ObjectMapper().createObjectNode()
+                    .put("id", params[0].toString())
+            );
+            try {
+                packet.sendThis(false);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void onAnswer(Packet packet) {
+            Gui.getInstance().callbackTeacherLoadSubject(packet.getRequestContent());
+        }
+    }
 }
+

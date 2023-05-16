@@ -1,5 +1,4 @@
 <!doctype html>
-<!doctype html>
 <html lang="en">
 
 <head>
@@ -14,7 +13,6 @@
 
   <!-- Material Kit CSS -->
   <link href="../assets/extern/css/material-dashboard.css" rel="stylesheet" />
-  <link href="custom.css" rel="stylesheet">
   <style>
     @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
   </style>
@@ -93,7 +91,10 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">Teacher</a>
+            <a class="btn btn-primary btn-fab" href="teacher.html">
+              <i class="bi bi-arrow-left"></i>
+            </a>
+            <a id="title" class="navbar-brand" href="javascript:void(0)"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -106,58 +107,30 @@
       </nav>
       <!-- End Navbar -->
       <div class="content">
-        <div class="card card-nav-tabs text-center">
-          <div class="card-header card-header-primary">
-            <h2>Teacher</h2>
-          </div>
-        </div>
-
-        <div class="d-flex justify-content-center align-items-center">
-          <div class="card-deck d-flex justify-content-center align-items-center">
-            <div id="teacher-container">
-              <!-- js generated content -->
-            </div>
-          </div>
+        <div class="container-fluid">
+          <!-- your content here -->
         </div>
       </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://github.com/RaduC1234">
-                  GitHub
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            @2023 Made by Ciprian Visan and Capatina Radu
-          </div>
-        </div>
-      </footer>
     </div>
   </div>
-    <!-- Bridge Files -->
-    <script>
-      function loadPage() {
-        Gui.requestTeacherMainPage();
-      }
-    </script>
-    <script src="teachers.js"></script>
-    <script src="javaBridge.fx.js"></script>
+  <!-- Bridge Files -->
+  <script>
+    function loadPage() {
 
-    <!--   Core JS Files   -->
-    <script src="../assets/extern/js/core/jquery.min.js"></script>
-    <script src="../assets/extern/js/core/popper.min.js"></script>
-    <script src="../assets/extern/js/core/bootstrap-material-design.min.js"></script>
-    <script src="https://unpkg.com/default-passive-events"></script>
-    <script src="../assets/extern/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    }
+  </script>
+  <script src="javaBridge.fx.js"></script>
 
-    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/extern/js/material-dashboard.js?v=2.1.0"></script>
-    <script src="../assets/extern/js/core/sidebar.js"></script>
+  <!--   Core JS Files   -->
+  <script src="../assets/extern/js/core/jquery.min.js"></script>
+  <script src="../assets/extern/js/core/popper.min.js"></script>
+  <script src="../assets/extern/js/core/bootstrap-material-design.min.js"></script>
+  <script src="https://unpkg.com/default-passive-events"></script>
+  <script src="../assets/extern/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/extern/js/material-dashboard.js?v=2.1.0"></script>
+  <script src="../assets/extern/js/core/sidebar.js"></script>
 </body>
-
 
 </html>

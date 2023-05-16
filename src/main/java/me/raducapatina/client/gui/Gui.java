@@ -111,6 +111,7 @@ public class Gui extends Application {
                     loadPage();
                 }
             });
+            webEngine.reload();
             //logger.info("JavaFx bridge fully loaded.");
         });
     }
@@ -125,10 +126,13 @@ public class Gui extends Application {
             case STUDENT -> {
                 this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
                 this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_SUBJECTS_\").style.display = \"none\"");
             }
             case TEACHER -> {
                 this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_USERS_\").style.display = \"none\"");
                 this.mainModule.webEngine.executeScript("document.getElementById(\"_STUDENT_\").style.display = \"none\"");
+                this.mainModule.webEngine.executeScript("document.getElementById(\"_ADMIN_SUBJECTS_\").style.display = \"none\"");
+
             }
             case ADMIN -> {
                 this.mainModule.webEngine.executeScript("document.getElementById(\"_TEACHER_\").style.display = \"none\"");
@@ -142,7 +146,7 @@ public class Gui extends Application {
         this.mainModule.webEngine.executeScript("document.getElementById(\"_REP_CARD_\").style.display = \"none\"");
 
         // Other pages
-        mainModule.webEngine.executeScript("loadPage();");
+        this.mainModule.webEngine.executeScript("loadPage();");
     }
 
     // ADMIN_READ_USERS
@@ -240,7 +244,6 @@ public class Gui extends Application {
 
         runOnGui(() -> {
             mainModule.getWebEngine().executeScript("dropDown(" + teachersNode.toPrettyString() + ");");
-
         });
     }
 
@@ -255,7 +258,9 @@ public class Gui extends Application {
     }
 
     public void callbackTeacherMainPage(JsonNode subjectNode) {
-
+        runOnGui(() -> {
+            mainModule.getWebEngine().executeScript("refreshCard(\"teacher-container\"," + subjectNode.toPrettyString() + ");");
+        });
     }
 
     public void requestStudentLoadGrades() {
@@ -281,6 +286,17 @@ public class Gui extends Application {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void teacherRequestLoadSubject(long id, String name) {
+        ClientInstance.getInstance().getNetworkService().sendRequest("TEACHER_LOAD_SUBJECT", new Object[]{id});
+    }
+
+    public void callbackTeacherLoadSubject(JsonNode subject) {
+        Platform.runLater(() -> {
+            this.mainModule.webEngine.load("teacher-redirect.html");
+            //this.mainModule.webEngine.executeScript("loadTable(" + subject.toPrettyString() +")");
+        });
     }
 
     private void init(Stage stage) {
@@ -319,6 +335,8 @@ public class Gui extends Application {
     public void runOnGui(Runnable runnable) {
         Platform.runLater(runnable);
     }
+
+
 
     public static class WebModule extends Pane {
 
